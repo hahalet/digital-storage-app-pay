@@ -1,0 +1,66 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      url: jdbc:mysql://rm-wz9809d7qsc0971h7bo.mysql.rds.aliyuncs.com:3306/yipin?autoReconnect=true&allowMultiQueries=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: panda_rw
+      password: ^Ta3hss&s##uPm$r
+      #        username: yipin
+      #        password: Sd6iT6zw6t5dHnyW
+      initial-size: 1
+      min-idle: 1
+      max-active: 20
+      # 配置获取连接等待超时的时间
+      max-wait: 60000
+      # 配置间隔多久才进行一次检测，q检测需要关闭的空闲连接，单位是毫秒
+      time-between-eviction-runs-millis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      min-evictable-idle-time-millis: 30000
+      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      filters: stat,wall  #配置日志实现，如  log4j 但因为 springboot2.0默认使用的是 logback 如果使用log4j会使项目无法启动
+      filter:
+        wall:
+          enabled: true
+          db-type: mysql
+          config:
+            delete-allow: true
+            drop-table-allow: true
+            multi-statement-allow: true
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      # 合并多个DruidDataSource的监控数据
+      use-global-data-source-stat: true
+      stat-view-servlet:
+        deny:
+        allow:
+        login-username: admin
+        login-password: 123456
+  redis:
+    host: r-wz9bvs7qxk3nbqcc0opd.redis.rds.aliyuncs.com
+    database: 0
+    password: jqTSzWgKwf2UO^f!
+    timeout: 10s
+    lettuce:
+      pool:
+        min-idle: 5
+        max-idle: 50
+        max-active: 100
+        max-wait: 1000
+  thymeleaf:
+    prefix: classpath:templates/
+  rabbitmq:
+    host: 120.77.86.58
+    port: 5672
+    username: admin
+    password: admin
+
+logging:
+  config: classpath:log/logback-spring.xml
+
+#图片配置信息
+img:
+  #ImgEnum枚举类中url
+  url: http://120.77.148.40/taurus
+
+
