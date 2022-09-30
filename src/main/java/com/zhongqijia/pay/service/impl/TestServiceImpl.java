@@ -3,12 +3,9 @@ package com.zhongqijia.pay.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yeepay.yop.sdk.exception.YopClientException;
 import com.yeepay.yop.sdk.model.YopRequestConfig;
-import com.yeepay.yop.sdk.model.yos.YosDownloadInputStream;
-import com.yeepay.yop.sdk.model.yos.YosDownloadResponse;
 import com.yeepay.yop.sdk.service.common.YopClient;
 import com.yeepay.yop.sdk.service.common.YopClientBuilder;
 import com.yeepay.yop.sdk.service.common.request.YopRequest;
-import com.yeepay.yop.sdk.service.common.response.YopResponse;
 import com.yeepay.yop.sdk.service.common.response.YosUploadResponse;
 import com.zhongqijia.pay.bean.TestBean;
 import com.zhongqijia.pay.common.util.RedisUtil;
@@ -19,11 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 @Service
 @Slf4j
