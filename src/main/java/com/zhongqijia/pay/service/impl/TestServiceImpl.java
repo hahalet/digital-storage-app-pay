@@ -75,6 +75,7 @@ public class TestServiceImpl extends ServiceImpl<TestMapper, TestBean> implement
         FileOutputStream fos = null;
         File file = null;
         String filePath = getPath(classStr);
+        filePath = filePath.replace("file:","");
         log.info("filePath:{}",filePath);
         try{
             File dir = new File(filePath);
@@ -113,7 +114,6 @@ public class TestServiceImpl extends ServiceImpl<TestMapper, TestBean> implement
             path = path.substring(1, path.length());
         }
         if (path.contains("jar")) {
-            path.replace("file:","");
             path = path.substring(0, path.lastIndexOf("."));
             return path.substring(0, path.lastIndexOf("/"));
         }
