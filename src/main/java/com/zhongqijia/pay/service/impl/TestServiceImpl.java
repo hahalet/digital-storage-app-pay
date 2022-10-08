@@ -54,7 +54,7 @@ public class TestServiceImpl extends ServiceImpl<TestMapper, TestBean> implement
             String fileString = FileCopyUtils.copyToString(reader);
             log.info("易宝api fileString:{}",fileString);
             // 本地文件参数传递
-            request.addMutiPartFile("merQual", byte2File(fileString.getBytes(),"config.json",this.getClass()));
+            request.addMutiPartFile("merQual", byte2File(fileString.getBytes(),"yop_sdk_config_default.json",this.getClass()));
             // 如果是：普通请求
             //YopResponse response = yopClient.request(request);
 
