@@ -8,6 +8,7 @@ import com.yeepay.yop.sdk.service.common.YopClientBuilder;
 import com.yeepay.yop.sdk.service.common.request.YopRequest;
 import com.yeepay.yop.sdk.service.common.response.YosUploadResponse;
 import com.zhongqijia.pay.bean.TestBean;
+import com.zhongqijia.pay.common.util.FileUtils;
 import com.zhongqijia.pay.common.util.RedisUtil;
 import com.zhongqijia.pay.mapper.TestMapper;
 import com.zhongqijia.pay.service.TestService;
@@ -54,7 +55,7 @@ public class TestServiceImpl extends ServiceImpl<TestMapper, TestBean> implement
             String fileString = FileCopyUtils.copyToString(reader);
             log.info("易宝api fileString:{}",fileString);
             // 本地文件参数传递
-            request.addMutiPartFile("merQual", byte2File(fileString.getBytes(),"yop_sdk_config_default.json",this.getClass()));
+            request.addMutiPartFile("merQual", new FileUtils().byte2File(fileString.getBytes(),"yop_sdk_config_default.json"));
             // 如果是：普通请求
             //YopResponse response = yopClient.request(request);
 
@@ -65,58 +66,5 @@ public class TestServiceImpl extends ServiceImpl<TestMapper, TestBean> implement
         }
 
         return testMapper.getCount();
-    }
-
-    /**
-     * byte 转file
-     */
-    public static File byte2File(byte[] buf, String fileName,Class classStr){
-        BufferedOutputStream bos = null;
-        FileOutputStream fos = null;
-        File file = null;
-        String filePath = getPath(classStr);
-        filePath = filePath.replace("file:","");
-        log.info("filePath:{}",filePath);
-        try{
-            File dir = new File(filePath);
-            if (!dir.exists() && dir.isDirectory()){
-                dir.mkdirs();
-            }
-            file = new File(filePath + File.separator + fileName);
-            fos = new FileOutputStream(file);
-            bos = new BufferedOutputStream(fos);
-            bos.write(buf);
-        }catch (Exception e){
-            log.info("易宝api文件保存错误:{}",e.getMessage());
-        }
-        finally{
-            if (bos != null){
-                try{
-                    bos.close();
-                }catch (IOException e){
-                    e.printStackTrace();
-                }
-            }
-            if (fos != null){
-                try{
-                    fos.close();
-                }catch (IOException e){
-                    e.printStackTrace();
-                }
-            }
-        }
-        return file;
-    }
-
-    public static String getPath(Class classStr) {
-        String path = classStr.getProtectionDomain().getCodeSource().getLocation().getPath();
-        if (System.getProperty("os.name").contains("dows")) {
-            path = path.substring(1, path.length());
-        }
-        if (path.contains("jar")) {
-            path = path.substring(0, path.lastIndexOf("."));
-            return path.substring(0, path.lastIndexOf("/"));
-        }
-        return path.replace("target/classes/", "");
     }
 }
