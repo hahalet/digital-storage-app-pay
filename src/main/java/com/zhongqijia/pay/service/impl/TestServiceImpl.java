@@ -48,17 +48,13 @@ public class TestServiceImpl extends ServiceImpl<TestMapper, TestBean> implement
         //requestConfig.setConnectTimeout(3000);
         // 普通参数传递
         request.addParameter("orderNo", "2020112412341123");
-        String pdfFilePath = "config\\yop_sdk_config_default.json";
-        Resource resource = new ClassPathResource(pdfFilePath);
 
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(resource.getInputStream()));
-            String fileString = FileCopyUtils.copyToString(reader);
             // 本地文件参数传递
             //request.addMutiPartFile("merQual", new FileUtils().byte2File(fileString.getBytes(),"yop_sdk_config_default_copy.json"));
             // 如果是：普通请求
             YopResponse response = yopClient.request(request);
-
+            log.info("易宝api调用返回:{}",response.getStringResult());
             // 如果是：文件上传
             //YosUploadResponse uploadResponse = yopClient.upload(request);
         } catch (Exception e) {
