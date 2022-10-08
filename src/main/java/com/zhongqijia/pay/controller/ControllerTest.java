@@ -18,7 +18,7 @@ public class ControllerTest {
     @Autowired
     private TestService testService;
 
-    @PostMapping("测试")
+    @PostMapping("test")
     @ApiOperation("测试")
     public Response<Integer> findFacebookStatus(){
         Response response = new Response<>();
