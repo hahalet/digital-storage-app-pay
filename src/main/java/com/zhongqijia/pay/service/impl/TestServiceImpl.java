@@ -113,6 +113,7 @@ public class TestServiceImpl extends ServiceImpl<TestMapper, TestBean> implement
             path = path.substring(1, path.length());
         }
         if (path.contains("jar")) {
+            path.replace("file:","");
             path = path.substring(0, path.lastIndexOf("."));
             return path.substring(0, path.lastIndexOf("/"));
         }
