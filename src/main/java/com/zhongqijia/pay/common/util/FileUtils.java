@@ -1,10 +1,13 @@
 package com.zhongqijia.pay.common.util;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+@Slf4j
 public class FileUtils {
 
     /**
@@ -15,6 +18,7 @@ public class FileUtils {
         FileOutputStream fos = null;
         File file = null;
         String filePath = getPath();
+        log.info("filePath:{}",filePath);
         try{
             File dir = new File(filePath);
             if (!dir.exists() && dir.isDirectory()){
