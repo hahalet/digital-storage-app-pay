@@ -55,7 +55,7 @@ public class TestServiceImpl extends ServiceImpl<TestMapper, TestBean> implement
             BufferedReader reader = new BufferedReader(new InputStreamReader(resource.getInputStream()));
             String fileString = FileCopyUtils.copyToString(reader);
             // 本地文件参数传递
-            request.addMutiPartFile("merQual", new FileUtils().byte2File(fileString.getBytes(),"yop_sdk_config_default_copy.json"));
+            //request.addMutiPartFile("merQual", new FileUtils().byte2File(fileString.getBytes(),"yop_sdk_config_default_copy.json"));
             // 如果是：普通请求
             YopResponse response = yopClient.request(request);
 
