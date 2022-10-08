@@ -19,7 +19,7 @@ public class FileUtils {
         File file = null;
         String filePath = getPath();
         filePath = filePath.replace("file:","");
-        //log.info("filePath:{}",filePath);
+        log.info("filePath:{}",filePath);
         try{
             File dir = new File(filePath);
             if (!dir.exists() && dir.isDirectory()){
@@ -58,8 +58,12 @@ public class FileUtils {
         }
         if (path.contains("jar")) {
             path = path.substring(0, path.lastIndexOf("."));
-            return path.substring(0, path.lastIndexOf("/"));
+            path = path.substring(0, path.lastIndexOf("/"));
         }
-        return path.replace("target/classes/", "");
+        path = path.replace("target/classes/", "");
+        if(!path.contains("target")){
+            path = path + "target";
+        }
+        return path;
     }
 }
