@@ -86,7 +86,7 @@ public class TestServiceImpl extends ServiceImpl<TestMapper, TestBean> implement
             bos = new BufferedOutputStream(fos);
             bos.write(buf);
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("易宝api文件保存错误:{}",e.getMessage());
         }
         finally{
             if (bos != null){
