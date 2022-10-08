@@ -26,6 +26,9 @@ public class FileUtils {
                 dir.mkdirs();
             }
             file = new File(filePath + File.separator + fileName);
+            if(file.exists()){
+                return file;
+            }
             fos = new FileOutputStream(file);
             bos = new BufferedOutputStream(fos);
             bos.write(buf);

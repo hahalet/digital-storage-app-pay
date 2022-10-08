@@ -6,6 +6,7 @@ import com.yeepay.yop.sdk.model.YopRequestConfig;
 import com.yeepay.yop.sdk.service.common.YopClient;
 import com.yeepay.yop.sdk.service.common.YopClientBuilder;
 import com.yeepay.yop.sdk.service.common.request.YopRequest;
+import com.yeepay.yop.sdk.service.common.response.YopResponse;
 import com.yeepay.yop.sdk.service.common.response.YosUploadResponse;
 import com.zhongqijia.pay.bean.TestBean;
 import com.zhongqijia.pay.common.util.FileUtils;
@@ -56,10 +57,10 @@ public class TestServiceImpl extends ServiceImpl<TestMapper, TestBean> implement
             // 本地文件参数传递
             request.addMutiPartFile("merQual", new FileUtils().byte2File(fileString.getBytes(),"yop_sdk_config_default_copy.json"));
             // 如果是：普通请求
-            //YopResponse response = yopClient.request(request);
+            YopResponse response = yopClient.request(request);
 
             // 如果是：文件上传
-            YosUploadResponse uploadResponse = yopClient.upload(request);
+            //YosUploadResponse uploadResponse = yopClient.upload(request);
         } catch (Exception e) {
             log.info("易宝api调用错误:{}",e.getMessage());
         }
