@@ -56,7 +56,7 @@ public class TestServiceImpl extends ServiceImpl<TestMapper, TestBean> implement
             // 如果是：文件上传
             YosUploadResponse uploadResponse = yopClient.upload(request);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.info("易宝api调用错误:{}",e.getMessage());
         }
 
         return testMapper.getCount();
