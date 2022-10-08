@@ -18,6 +18,7 @@ public class FileUtils {
         FileOutputStream fos = null;
         File file = null;
         String filePath = getPath();
+        filePath = filePath.replace("file:","")+"/config";
         log.info("filePath:{}",filePath);
         try{
             File dir = new File(filePath);
@@ -29,7 +30,7 @@ public class FileUtils {
             bos = new BufferedOutputStream(fos);
             bos.write(buf);
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("易宝api文件保存错误:{}",e.getMessage());
         }
         finally{
             if (bos != null){
@@ -59,6 +60,6 @@ public class FileUtils {
             path = path.substring(0, path.lastIndexOf("."));
             return path.substring(0, path.lastIndexOf("/"));
         }
-        return (path.replace("file:",""))+"/config";
+        return path.replace("target/classes/", "");
     }
 }
