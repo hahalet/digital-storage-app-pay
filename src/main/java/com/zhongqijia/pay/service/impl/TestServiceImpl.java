@@ -45,7 +45,7 @@ public class TestServiceImpl extends ServiceImpl<TestMapper, TestBean> implement
         //requestConfig.setConnectTimeout(3000);
         // 普通参数传递
         request.addParameter("orderNo", "2020112412341123");
-        String pdfFilePath = "config/yop_sdk_config_default.json";
+        String pdfFilePath = "config\\yop_sdk_config_default.json";
         Resource resource = new ClassPathResource(pdfFilePath);
         try {
             // 本地文件参数传递
