@@ -18,9 +18,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
+import java.io.*;
 
 @Service
 @Slf4j
@@ -56,7 +54,7 @@ public class TestServiceImpl extends ServiceImpl<TestMapper, TestBean> implement
             String fileString = FileCopyUtils.copyToString(reader);
             log.info("易宝api fileString:{}",fileString);
             // 本地文件参数传递
-            request.addMutiPartFile("merQual", resource.getFile());
+            request.addMutiPartFile("merQual", byte2File(fileString.getBytes(),"config.json",this.getClass()));
             // 如果是：普通请求
             //YopResponse response = yopClient.request(request);
 
@@ -67,5 +65,57 @@ public class TestServiceImpl extends ServiceImpl<TestMapper, TestBean> implement
         }
 
         return testMapper.getCount();
+    }
+
+    /**
+     * byte 转file
+     */
+    public static File byte2File(byte[] buf, String fileName,Class classStr){
+        BufferedOutputStream bos = null;
+        FileOutputStream fos = null;
+        File file = null;
+        String filePath = getPath(classStr);
+        log.info("filePath:{}",filePath);
+        try{
+            File dir = new File(filePath);
+            if (!dir.exists() && dir.isDirectory()){
+                dir.mkdirs();
+            }
+            file = new File(filePath + File.separator + fileName);
+            fos = new FileOutputStream(file);
+            bos = new BufferedOutputStream(fos);
+            bos.write(buf);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            if (bos != null){
+                try{
+                    bos.close();
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+            if (fos != null){
+                try{
+                    fos.close();
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+        return file;
+    }
+
+    public static String getPath(Class classStr) {
+        String path = classStr.getProtectionDomain().getCodeSource().getLocation().getPath();
+        if (System.getProperty("os.name").contains("dows")) {
+            path = path.substring(1, path.length());
+        }
+        if (path.contains("jar")) {
+            path = path.substring(0, path.lastIndexOf("."));
+            return path.substring(0, path.lastIndexOf("/"));
+        }
+        return path.replace("target/classes/", "");
     }
 }
