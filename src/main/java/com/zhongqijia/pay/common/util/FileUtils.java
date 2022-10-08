@@ -15,7 +15,6 @@ public class FileUtils {
         FileOutputStream fos = null;
         File file = null;
         String filePath = getPath();
-        filePath = filePath.replace("file:","");
         try{
             File dir = new File(filePath);
             if (!dir.exists() && dir.isDirectory()){
@@ -56,6 +55,6 @@ public class FileUtils {
             path = path.substring(0, path.lastIndexOf("."));
             return path.substring(0, path.lastIndexOf("/"));
         }
-        return path.replace("target/classes/", "");
+        return (path.replace("file:",""))+"/config";
     }
 }
