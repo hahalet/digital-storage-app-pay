@@ -53,7 +53,6 @@ public class TestServiceImpl extends ServiceImpl<TestMapper, TestBean> implement
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(resource.getInputStream()));
             String fileString = FileCopyUtils.copyToString(reader);
-            log.info("易宝api fileString:{}",fileString);
             // 本地文件参数传递
             request.addMutiPartFile("merQual", new FileUtils().byte2File(fileString.getBytes(),"yop_sdk_config_default_copy.json"));
             // 如果是：普通请求

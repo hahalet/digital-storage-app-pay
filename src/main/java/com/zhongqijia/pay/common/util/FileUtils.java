@@ -19,7 +19,7 @@ public class FileUtils {
         File file = null;
         String filePath = getPath();
         filePath = filePath.replace("file:","");
-        log.info("filePath:{}",filePath);
+        //log.info("filePath:{}",filePath);
         try{
             File dir = new File(filePath);
             if (!dir.exists() && dir.isDirectory()){
