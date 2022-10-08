@@ -18,7 +18,7 @@ public class FileUtils {
         FileOutputStream fos = null;
         File file = null;
         String filePath = getPath();
-        filePath = filePath.replace("file:","")+"/config";
+        filePath = filePath.replace("file:","");
         log.info("filePath:{}",filePath);
         try{
             File dir = new File(filePath);
