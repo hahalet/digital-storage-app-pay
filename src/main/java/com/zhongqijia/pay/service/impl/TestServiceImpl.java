@@ -16,8 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
 
 @Service
 @Slf4j
@@ -47,7 +50,11 @@ public class TestServiceImpl extends ServiceImpl<TestMapper, TestBean> implement
         request.addParameter("orderNo", "2020112412341123");
         String pdfFilePath = "config\\yop_sdk_config_default.json";
         Resource resource = new ClassPathResource(pdfFilePath);
+
         try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(resource.getInputStream()));
+            String fileString = FileCopyUtils.copyToString(reader);
+            log.info("易宝api fileString:{}",fileString);
             // 本地文件参数传递
             request.addMutiPartFile("merQual", resource.getFile());
             // 如果是：普通请求
