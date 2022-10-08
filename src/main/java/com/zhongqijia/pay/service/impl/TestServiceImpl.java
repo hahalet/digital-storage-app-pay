@@ -13,6 +13,8 @@ import com.zhongqijia.pay.mapper.TestMapper;
 import com.zhongqijia.pay.service.TestService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -43,15 +45,17 @@ public class TestServiceImpl extends ServiceImpl<TestMapper, TestBean> implement
         //requestConfig.setConnectTimeout(3000);
         // 普通参数传递
         request.addParameter("orderNo", "2020112412341123");
-        // 本地文件参数传递
-        request.addMutiPartFile("merQual", new File("src/main/resources/config/yop_sdk_config_default.json"));
+        String pdfFilePath = "config/yop_sdk_config_default.json";
+        Resource resource = new ClassPathResource(pdfFilePath);
         try {
+            // 本地文件参数传递
+            request.addMutiPartFile("merQual", resource.getFile());
             // 如果是：普通请求
             //YopResponse response = yopClient.request(request);
 
             // 如果是：文件上传
             YosUploadResponse uploadResponse = yopClient.upload(request);
-        } catch (YopClientException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
