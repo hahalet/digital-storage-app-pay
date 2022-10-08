@@ -50,7 +50,7 @@ spring:
   thymeleaf:
     prefix: classpath:templates/
   rabbitmq:
-    host: 120.77.86.58
+    host: 172.29.155.152
     port: 5672
     username: admin
     password: admin

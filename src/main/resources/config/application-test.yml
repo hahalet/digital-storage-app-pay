@@ -2,7 +2,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      url: jdbc:mysql://rm-wz9809d7qsc0971h7bo.mysql.rds.aliyuncs.com:3306/yipin?autoReconnect=true&allowMultiQueries=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
+      url: jdbc:mysql://rm-wz9809d7qsc0971h7.mysql.rds.aliyuncs.com:3306/yipin?autoReconnect=true&allowMultiQueries=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
       driver-class-name: com.mysql.cj.jdbc.Driver
       username: panda_rw
       password: ^Ta3hss&s##uPm$r
@@ -37,7 +37,7 @@ spring:
         login-username: admin
         login-password: 123456
   redis:
-    host: r-wz9bvs7qxk3nbqcc0opd.redis.rds.aliyuncs.com
+    host: r-wz9bvs7qxk3nbqcc0o.redis.rds.aliyuncs.com
     database: 0
     password: jqTSzWgKwf2UO^f!
     timeout: 10s
@@ -50,7 +50,7 @@ spring:
   thymeleaf:
     prefix: classpath:templates/
   rabbitmq:
-    host: 120.77.86.58
+    host: 172.29.155.152
     port: 5672
     username: admin
     password: admin
