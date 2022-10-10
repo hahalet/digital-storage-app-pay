@@ -2,7 +2,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      url: jdbc:mysql://gz-cdb-3tj1eesh.sql.tencentcdb.com:56868/yipin?autoReconnect=true&allowMultiQueries=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
+      url: jdbc:mysql://172.16.0.16:3306/yipin?autoReconnect=true&allowMultiQueries=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
       driver-class-name: com.mysql.cj.jdbc.Driver
       username: root
       password: ^Ta3hss&s##uPm$r
@@ -37,8 +37,8 @@ spring:
         login-username: admin
         login-password: 123456
   redis:
-    host: gz-crs-ogh812y5.sql.tencentcdb.com
-    port: 25499
+    host: 172.16.0.8
+    port: 6379
     database: 0
     password: jqTSzWgKwf2UO^f!
     timeout: 10s
