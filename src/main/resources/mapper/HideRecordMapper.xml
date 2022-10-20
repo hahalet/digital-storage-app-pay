@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongqijia.pay.mapper.HideRecordMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zhongqijia.pay.bean.HideRecord">
+        <id column="id" property="id" />
+        <result column="userid" property="userid" />
+        <result column="img" property="img" />
+        <result column="name" property="name" />
+        <result column="price" property="price" />
+        <result column="no" property="no" />
+        <result column="ms" property="ms" />
+        <result column="type" property="type" />
+        <result column="createtime" property="createtime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, userid, img, name, price, no, ms, type, createtime
+    </sql>
+
+</mapper>

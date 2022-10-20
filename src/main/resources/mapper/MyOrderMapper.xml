@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongqijia.pay.mapper.MyOrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zhongqijia.pay.bean.MyOrder">
+        <id column="id" property="id" />
+        <result column="orderno" property="orderno" />
+        <result column="userid" property="userid" />
+        <result column="collid" property="collid" />
+        <result column="istype" property="istype" />
+        <result column="ginsengtype" property="ginsengtype" />
+        <result column="number" property="number" />
+        <result column="price" property="price" />
+        <result column="ordertype" property="ordertype" />
+        <result column="grants" property="grants" />
+        <result column="createtime" property="createtime" />
+        <result column="endtime" property="endtime" />
+        <result column="paytype" property="paytype" />
+        <result column="cyid" property="cyid" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, orderno, userid, collid, istype, ginsengtype, number, price, ordertype, grants, createtime, endtime, paytype, cyid
+    </sql>
+
+</mapper>

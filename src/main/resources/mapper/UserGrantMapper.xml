@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongqijia.pay.mapper.UserGrantMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zhongqijia.pay.bean.UserGrant">
+        <id column="id" property="id" />
+        <result column="order_id" property="orderId" />
+        <result column="userid" property="userid" />
+        <result column="collid" property="collid" />
+        <result column="truenumber" property="truenumber" />
+        <result column="hashs" property="hashs" />
+        <result column="createtime" property="createtime" />
+        <result column="buyprice" property="buyprice" />
+        <result column="buytime" property="buytime" />
+        <result column="endtime" property="endtime" />
+        <result column="sellprice" property="sellprice" />
+        <result column="type" property="type" />
+        <result column="oppositeuser" property="oppositeuser" />
+        <result column="sjtime" property="sjtime" />
+        <result column="tokenId" property="tokenId" />
+        <result column="paytype" property="paytype" />
+        <result column="casting_number" property="castingNumber" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, order_id, userid, collid, truenumber, hashs, createtime, buyprice, buytime, endtime, sellprice, type, oppositeuser, sjtime, tokenId, paytype, casting_number
+    </sql>
+
+</mapper>

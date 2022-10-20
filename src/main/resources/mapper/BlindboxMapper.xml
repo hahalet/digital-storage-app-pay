@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongqijia.pay.mapper.BlindboxMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zhongqijia.pay.bean.Blindbox">
+        <id column="id" property="id" />
+        <result column="img" property="img" />
+        <result column="name" property="name" />
+        <result column="limits" property="limits" />
+        <result column="price" property="price" />
+        <result column="img1" property="img1" />
+        <result column="publisher" property="publisher" />
+        <result column="details" property="details" />
+        <result column="probably" property="probably" />
+        <result column="creatorimg" property="creatorimg" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, img, name, limits, price, img1, publisher, details, probably, creatorimg
+    </sql>
+
+</mapper>

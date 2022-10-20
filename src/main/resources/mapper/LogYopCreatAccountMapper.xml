@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongqijia.pay.mapper.LogYopCreatAccountMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zhongqijia.pay.bean.pay.LogYopCreatAccount">
+        <id column="id" property="id" />
+        <result column="business_no" property="businessNo" />
+        <result column="merchant_no" property="merchantNo" />
+        <result column="merchant_user_no" property="merchantUserNo" />
+        <result column="wallet_category" property="walletCategory" />
+        <result column="wallet_user_no" property="walletUserNo" />
+        <result column="response" property="response" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, business_no, merchant_no, merchant_user_no, wallet_category, wallet_user_no, response, create_time
+    </sql>
+    <select id="getCount" resultType="java.lang.Integer">
+        select count(1) from users
+    </select>
+
+</mapper>

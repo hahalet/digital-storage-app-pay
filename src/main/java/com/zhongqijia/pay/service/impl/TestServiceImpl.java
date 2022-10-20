@@ -34,32 +34,6 @@ public class TestServiceImpl extends ServiceImpl<TestMapper, TestBean> implement
     @Override
     public int getCount() {
         redisUtil.set("RedisTest:test", "111");
-        // 初始化client，该Client线程安全，请使用单例模式，多次请求共用
-        YopClient yopClient = YopClientBuilder.builder().build();
-        // 指定要请求的API地址和请求方式
-        YopRequest request = new YopRequest("/rest/v1.0/file/upload", "POST");
-
-        YopRequestConfig requestConfig = request.getRequestConfig();
-        // 请求级别appkey设置(可选)，否则取默认appKey
-        //requestConfig.setAppKey("your appkey");
-        // 指定单次请求获取数据的超时时间, 单位：ms(可选，默认采用配置文件中的设置)
-        //requestConfig.setReadTimeout(3000);
-        // 指定单次请求建立连接的超时, 单位：ms(可选，默认采用配置文件中的设置)
-        //requestConfig.setConnectTimeout(3000);
-        // 普通参数传递
-        request.addParameter("orderNo", "2020112412341123");
-
-        try {
-            // 本地文件参数传递
-            //request.addMutiPartFile("merQual", new FileUtils().byte2File(fileString.getBytes(),"yop_sdk_config_default_copy.json"));
-            // 如果是：普通请求
-            YopResponse response = yopClient.request(request);
-            log.info("易宝api调用返回:{}",response.getStringResult());
-            // 如果是：文件上传
-            //YosUploadResponse uploadResponse = yopClient.upload(request);
-        } catch (Exception e) {
-            log.info("易宝api调用错误:{}",e.getMessage());
-        }
 
         return testMapper.getCount();
     }

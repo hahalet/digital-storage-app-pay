@@ -53,7 +53,7 @@ spring:
     host: 172.29.155.152
     port: 5672
     username: admin
-    password: admin
+    password: OhmRFxSdz1wcO2
 
 logging:
   config: classpath:log/logback-spring.xml

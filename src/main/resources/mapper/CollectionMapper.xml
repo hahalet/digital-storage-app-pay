@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongqijia.pay.mapper.CollectionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zhongqijia.pay.bean.Collection">
+        <id column="id" property="id" />
+        <result column="img" property="img" />
+        <result column="name" property="name" />
+        <result column="minname" property="minname" />
+        <result column="limits" property="limits" />
+        <result column="price" property="price" />
+        <result column="img1" property="img1" />
+        <result column="details" property="details" />
+        <result column="publisher" property="publisher" />
+        <result column="creator_id" property="creatorId" />
+        <result column="creator" property="creator" />
+        <result column="creatorimg" property="creatorimg" />
+        <result column="creator_address" property="creatorAddress" />
+        <result column="isdeploy" property="isdeploy" />
+        <result column="contractAddress" property="contractAddress" />
+        <result column="sold" property="sold" />
+        <result column="stockc" property="stockc" />
+        <result column="nosetup" property="nosetup" />
+        <result column="introduce" property="introduce" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, img, name, minname, limits, price, img1, details, publisher, creator_id, creator, creatorimg, creator_address, isdeploy, contractAddress, sold, stockc, nosetup, introduce
+    </sql>
+
+</mapper>

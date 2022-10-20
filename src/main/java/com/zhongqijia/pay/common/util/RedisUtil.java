@@ -1,5 +1,6 @@
 package com.zhongqijia.pay.common.util;
 
+import com.zhongqijia.pay.utils.RedisHelp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
@@ -310,6 +311,25 @@ public class RedisUtil {
             log.error("getExpire: {}", e);
         }
         return flag;
+    }
+
+    /**
+     * 判断key是否存在,直到不存在并设置
+     *
+     * @param key 键
+     * @return true 存在 false不存在
+     */
+    public void getKey(String key, String value) {
+        try {
+            //锁一分钟,检查订单状态不允许回调修改订单
+            while(hasKey(RedisHelp.CHECK_ORDER_STATUS_LOCK_KEY)){
+                Thread.sleep(100);
+            }
+            set(key,value,60L);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+
     }
 
     /**

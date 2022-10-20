@@ -40,7 +40,7 @@ public class GeneratorConfigNewStarTest {
                 .setNaming(NamingStrategy.underline_to_camel)//下划线到驼峰的命名方式
 //                .setTablePrefix("tb_")//表名前缀
                 .setEntityLombokModel(true)//使用lombok
-                .setInclude("log_bind_card");//逆向工程使用的表
+                .setInclude("users","my_order","collection","hide_record","blindbox","issue","signup","mybox","user_grant");//逆向工程使用的表
         //4、包名策略配置
         PackageConfig packageConfig = new PackageConfig();
         packageConfig.setParent("com.zhongqijia.pay")//设置包名的parent
