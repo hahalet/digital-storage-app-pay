@@ -323,8 +323,10 @@ public class RedisUtil {
         try {
             //锁一分钟,检查订单状态不允许回调修改订单
             while(hasKey(RedisHelp.CHECK_ORDER_STATUS_LOCK_KEY)){
+                log.info("已包含key:{},等待",key);
                 Thread.sleep(100);
             }
+            log.info("等待结束设置成功");
             set(key,value,60L);
         } catch (Exception e) {
             log.error(e.getMessage());
