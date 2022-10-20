@@ -61,16 +61,12 @@ public class YopEventConsumer {
 
     @RabbitListener(queues = BusConfig.YOP_PAY_CALLBACK_QUEUE)
     public void payCallback(JSONObject message) {
-        log.info("YopEventConsumer message = {}", message);
         //锁一分钟,检查订单状态不允许回调修改订单
-        log.info("YopEventConsumer 进入之前");
         redisUtil.getKey(RedisHelp.CHECK_ORDER_STATUS_LOCK_KEY,RedisHelp.CHECK_ORDER_STATUS_LOCK_VALUE);
-        log.info("YopEventConsumer 进入之后");
         try {
             LogYopPayCallBack logYopPayCallBack = JSONObject.parseObject(message.toJSONString(), LogYopPayCallBack.class);
             String orderNo = logYopPayCallBack.getOrderId();
             if (orderNo == null || orderNo.length() == 0) {
-                log.info("payCallback error orderNo is empty!");
                 redisUtil.delete(RedisHelp.CHECK_ORDER_STATUS_LOCK_KEY);
                 return;
             }
@@ -82,18 +78,12 @@ public class YopEventConsumer {
                 queryWrapper.ne("ordertype",2);
 
                 List<MyOrder> myOrders = myOrderMapper.selectList(queryWrapper);
-                log.info("myOrders.getOrdertype1:{}",myOrders.get(0).getOrdertype());
-
-                Thread.sleep(10000);
-
-                log.info("myOrders.getOrdertype2:{}",myOrderMapper.selectById(myOrders.get(0).getId()).getOrdertype());
                 if(myOrders==null || myOrders.size()==0){
                     redisUtil.delete(RedisHelp.CHECK_ORDER_STATUS_LOCK_KEY);
                     return;
                 }
                 if (myOrders.size() > 0) {
                     MyOrder myOrder = myOrders.get(0);
-                    log.info("myOrders.getOrdertype:{}",myOrder.getOrdertype());
                     if(myOrder.getGrants()==2){//已发放不重复发放
                         redisUtil.delete(RedisHelp.CHECK_ORDER_STATUS_LOCK_KEY);
                         return;
