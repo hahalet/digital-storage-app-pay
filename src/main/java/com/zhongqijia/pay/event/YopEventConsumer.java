@@ -88,6 +88,7 @@ public class YopEventConsumer {
                 }
                 if (myOrders.size() > 0) {
                     MyOrder myOrder = myOrders.get(0);
+                    log.info("myOrders.getOrdertype:{}",myOrder.getOrdertype());
                     if(myOrder.getGrants()==2){//已发放不重复发放
                         redisUtil.delete(RedisHelp.CHECK_ORDER_STATUS_LOCK_KEY);
                         return;

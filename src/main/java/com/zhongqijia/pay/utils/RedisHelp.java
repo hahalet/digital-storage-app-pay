@@ -3,10 +3,12 @@ package com.zhongqijia.pay.utils;
 import com.alibaba.fastjson.JSONObject;
 import com.zhongqijia.pay.bean.MyOrder;
 import com.zhongqijia.pay.common.util.RedisUtil;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class RedisHelp {
     public static String USER_KEY = "USER_KEY:";
     public static String ISSUE_KEY = "ISSUE_KEY:";
@@ -53,6 +55,7 @@ public class RedisHelp {
      */
     public static void refreshMyOrder(MyOrder myOrder, RedisUtil redisUtil){
         String myOrdersRedisStr = (String)redisUtil.get(RedisHelp.MY_ORDER_KEY + myOrder.getUserid() + "_" + myOrder.getCollid());
+        log.info("myOrdersRedisStr:{}",myOrdersRedisStr);
         List<MyOrder> myOrdersRedis = null;
         try {
             myOrdersRedis = JSONObject.parseArray(myOrdersRedisStr, MyOrder.class);
