@@ -63,7 +63,9 @@ public class YopEventConsumer {
     public void payCallback(JSONObject message) {
         log.info("YopEventConsumer message = {}", message);
         //锁一分钟,检查订单状态不允许回调修改订单
+        log.info("YopEventConsumer 进入之前");
         redisUtil.getKey(RedisHelp.CHECK_ORDER_STATUS_LOCK_KEY,RedisHelp.CHECK_ORDER_STATUS_LOCK_VALUE);
+        log.info("YopEventConsumer 进入之后");
         try {
             LogYopPayCallBack logYopPayCallBack = JSONObject.parseObject(message.toJSONString(), LogYopPayCallBack.class);
             String orderNo = logYopPayCallBack.getOrderId();
