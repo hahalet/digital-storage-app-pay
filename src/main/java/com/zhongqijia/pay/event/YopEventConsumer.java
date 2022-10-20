@@ -96,13 +96,7 @@ public class YopEventConsumer {
                     myOrder.setPaytype(5);
                     myOrder.setOrdertype(1);
                     myOrderMapper.updateById(myOrder);
-                    List<MyOrder> myOrdersRedis = (List<MyOrder>)redisUtil.get(RedisHelp.MY_ORDER_KEY + myOrder.getUserid() + "_" + myOrder.getCollid());
-                    if (myOrdersRedis == null) {
-                        myOrdersRedis = new ArrayList<>();
-                    }
-                    myOrdersRedis.remove(myOrder);
-                    myOrdersRedis.add(myOrder);
-                    redisUtil.set(RedisHelp.MY_ORDER_KEY + myOrder.getUserid() + "_" + myOrder.getCollid(), myOrdersRedis);
+                    RedisHelp.refreshMyOrder(myOrder,redisUtil);
                     if (myOrder.getIstype() == 1) {//藏品+出售
                         Collection collection = collectionMapper.selectById(myOrder.getCollid());
                         HideRecord hideRecord = new HideRecord();
@@ -131,9 +125,9 @@ public class YopEventConsumer {
                     if (myOrder.getGinsengtype() == 2) {
                         Issue issue = issueMapper.selectById(myOrder.getCyid());
                         QueryWrapper<Signup> queryWrapperSignup = new QueryWrapper();
-                        queryWrapper.eq("userid",myOrder.getCyid());
-                        queryWrapper.eq("isid",myOrder.getUserid());
-                        queryWrapper.eq("begintime",issue.getReleasetime());
+                        queryWrapperSignup.eq("userid",myOrder.getCyid());
+                        queryWrapperSignup.eq("isid",myOrder.getUserid());
+                        queryWrapperSignup.eq("begintime",issue.getReleasetime());
                         if (signupMapper.selectList(queryWrapperSignup).size() == 0) {
                             Signup signup = new Signup();
                             signup.setUserid(myOrder.getUserid());
@@ -145,8 +139,8 @@ public class YopEventConsumer {
                         }
                     } else {
                         QueryWrapper<Mybox> queryWrapperMybox = new QueryWrapper();
-                        queryWrapper.eq("userid",myOrder.getUserid());
-                        queryWrapper.eq("orderid",myOrder.getId());
+                        queryWrapperMybox.eq("userid",myOrder.getUserid());
+                        queryWrapperMybox.eq("orderid",myOrder.getId());
                         if (myboxMapper.selectList(queryWrapperMybox).size() == 0) {
                             Mybox mybox = new Mybox();
                             mybox.setUserid(myOrder.getUserid());

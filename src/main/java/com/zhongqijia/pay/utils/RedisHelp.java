@@ -1,5 +1,12 @@
 package com.zhongqijia.pay.utils;
 
+import com.alibaba.fastjson.JSONObject;
+import com.zhongqijia.pay.bean.MyOrder;
+import com.zhongqijia.pay.common.util.RedisUtil;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class RedisHelp {
     public static String USER_KEY = "USER_KEY:";
     public static String ISSUE_KEY = "ISSUE_KEY:";
@@ -21,4 +28,41 @@ public class RedisHelp {
     public static final String IP_VIOLATION_TIMES_PREFIX = "app:ip:violation:times:";
     // IP小黑屋判断
     public static final String IP_BLACK_EXIST_PREFIX = "app:ip:black:exist:";
+
+    /**
+     * 获取缓存
+     * @param redisUtil
+     * @param userId
+     * @param collid
+     * @return
+     */
+    public static List<MyOrder> getMyOrder(RedisUtil redisUtil, Integer userId, Integer collid){
+        String myOrdersRedisStr = (String)redisUtil.get(RedisHelp.MY_ORDER_KEY + userId + "_" + collid);
+        List<MyOrder> myOrdersRedis = null;
+        try {
+            myOrdersRedis = JSONObject.parseArray(myOrdersRedisStr, MyOrder.class);
+        } catch (Exception e) {
+        }
+        return myOrdersRedis==null?new ArrayList<>():myOrdersRedis;
+    }
+
+    /**
+     * 刷新缓存
+     * @param myOrder
+     * @param redisUtil
+     */
+    public static void refreshMyOrder(MyOrder myOrder, RedisUtil redisUtil){
+        String myOrdersRedisStr = (String)redisUtil.get(RedisHelp.MY_ORDER_KEY + myOrder.getUserid() + "_" + myOrder.getCollid());
+        List<MyOrder> myOrdersRedis = null;
+        try {
+            myOrdersRedis = JSONObject.parseArray(myOrdersRedisStr, MyOrder.class);
+        } catch (Exception e) {
+        }
+        if (myOrdersRedis == null) {
+            myOrdersRedis = new ArrayList<>();
+        }
+        myOrdersRedis.remove(myOrder);
+        myOrdersRedis.add(myOrder);
+        redisUtil.set(RedisHelp.MY_ORDER_KEY + myOrder.getUserid() + "_" + myOrder.getCollid(), JSONObject.toJSONString(myOrdersRedis));
+    }
 }

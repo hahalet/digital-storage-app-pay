@@ -101,4 +101,11 @@ public class MyOrder extends Model<MyOrder> {
         return this.id;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MyOrder)) return false;
+        MyOrder myOrder = (MyOrder) o;
+        return id.intValue() == myOrder.id.intValue();
+    }
 }
