@@ -171,7 +171,6 @@ public class YopEventConsumer {
             }
         } catch (Exception e) {
             log.info("支付回调执行失败error:{}", e.getMessage());
-            throw e;
         }
         redisUtil.delete(RedisHelp.CHECK_ORDER_STATUS_LOCK_KEY);
     }
