@@ -82,6 +82,11 @@ public class YopEventConsumer {
                 queryWrapper.ne("ordertype",2);
 
                 List<MyOrder> myOrders = myOrderMapper.selectList(queryWrapper);
+                log.info("myOrders.getOrdertype1:{}",myOrders.get(0).getOrdertype());
+
+                Thread.sleep(10000);
+
+                log.info("myOrders.getOrdertype2:{}",myOrderMapper.selectById(myOrders.get(0).getId()).getOrdertype());
                 if(myOrders==null || myOrders.size()==0){
                     redisUtil.delete(RedisHelp.CHECK_ORDER_STATUS_LOCK_KEY);
                     return;
