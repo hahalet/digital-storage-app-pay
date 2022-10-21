@@ -10,7 +10,6 @@
         <result column="collid" property="collid" />
         <result column="istype" property="istype" />
         <result column="ginsengtype" property="ginsengtype" />
-        <result column="number" property="number" />
         <result column="price" property="price" />
         <result column="ordertype" property="ordertype" />
         <result column="grants" property="grants" />
@@ -22,7 +21,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, orderno, userid, collid, istype, ginsengtype, number, price, ordertype, grants, createtime, endtime, paytype, cyid
+        id, orderno, userid, collid, istype, ginsengtype, price, ordertype, grants, createtime, endtime, paytype, cyid
     </sql>
 
 </mapper>
