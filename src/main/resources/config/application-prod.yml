@@ -40,7 +40,7 @@ spring:
     host: 172.16.0.8
     port: 6379
     database: 0
-    password: jqTSzWgKwf2UO^f!
+    password: NOJRNmRp4eqUVH*s
     timeout: 10s
     lettuce:
       pool:
