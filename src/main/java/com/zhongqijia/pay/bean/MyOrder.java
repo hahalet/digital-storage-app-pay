@@ -56,6 +56,11 @@ public class MyOrder extends Model<MyOrder> {
     private Integer ginsengtype;
 
     /**
+     * 数量
+     */
+    private Integer number;
+
+    /**
      * 订单金额
      */
     private BigDecimal price;
