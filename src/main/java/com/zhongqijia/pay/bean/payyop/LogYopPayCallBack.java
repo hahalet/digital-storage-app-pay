@@ -1,4 +1,4 @@
-package com.zhongqijia.pay.bean.pay;
+package com.zhongqijia.pay.bean.payyop;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
