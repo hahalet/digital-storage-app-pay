@@ -29,5 +29,5 @@ public class C2CSandCallBack
 
     private String transType;
 
-    private int userFeeAmt;
+    private double userFeeAmt;
 }

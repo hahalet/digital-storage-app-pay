@@ -61,6 +61,7 @@ public class SandEventConsumer {
 
     @RabbitListener(queues = BusConfig.SAND_PAY_CALLBACK_C2C_QUEUE)
     public void payCallbackC2C(JSONObject message) {
+        log.info("sand payCallbackC2C接收到数据:{}",JSONObject.toJSONString(message, true));
         C2CSandCallBack c2CSandCallBack = JSONObject.parseObject(message.toJSONString(), C2CSandCallBack.class);
         log.info("sand payCallbackC2C处理:{}",message.toJSONString());
         log.info("sand payCallbackC2C处理:{}", c2CSandCallBack.getOrderNo());

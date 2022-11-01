@@ -45,8 +45,8 @@ public class BusConfig {
     public static final String SAND_PAY_CALLBACK_QUEUE = "sand.pay.callback.queue";
     public static final String SAND_PAY_CALLBACK_ROUTING_KEY = "sand.pay.callback.routingkey";
 
-    public static final String SAND_PAY_CALLBACK_C2C_QUEUE = "sand.pay.c2c.callback.queue";
-    public static final String SAND_PAY_CALLBACK_C2C_ROUTING_KEY = "sand.pay.c2c.callback.routingkey";
+    public static final String SAND_PAY_CALLBACK_C2C_QUEUE = "sand.pay.ctoc.callback.queue";
+    public static final String SAND_PAY_CALLBACK_C2C_ROUTING_KEY = "sand.pay.ctoc.callback.routingkey";
 
     @Bean
     public MessageConverter messageConverter() {
