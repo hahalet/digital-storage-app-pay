@@ -80,9 +80,9 @@ public class SandController {
             boolean valid = CryptoUtil.verifyDigitalSign(data.getBytes(encoding), Base64.decodeBase64(sign),
                     SandCertUtil.getPublicKey(), "SHA1WithRSA");
             if (!valid) {
-                System.out.println("sand payCallback 验签失败");
+                log.info("sand payCallback 验签失败");
             } else {
-                System.out.println("sand payCallback 验签成功");
+                log.info("sand payCallback 验签成功");
                 SandPayCallBack sandPayCallBack = JSONObject.parseObject(data, SandPayCallBack.class);
                 try{
                     LogSandPayCallBack logSandPayCallBack = sandPayCallBack.getBody();
