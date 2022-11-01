@@ -1,6 +1,8 @@
 package com.zhongqijia.pay.controller;
 
+import cn.com.sand.ceas.sdk.config.CertCache;
 import cn.com.sand.ceas.sdk.config.ConfigLoader;
+import cn.com.sand.ceas.sdk.util.SignatureUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zhongqijia.pay.config.BusConfig;
@@ -15,6 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SignatureException;
 import java.util.Map;
 
 /**
@@ -38,7 +43,6 @@ public class SandController {
     }
 
     /**
-     *
      * 功能描述: 钱包回调地址
      *
      * @param:
@@ -60,7 +64,18 @@ public class SandController {
     }
 
     /**
-     *
+     * 验签方法
+     */
+    private static boolean verifySign(JSONObject dataJson) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
+        String sign = dataJson.getString("sign");
+        String signType = dataJson.getString("signType");
+        dataJson.remove("sign");
+        dataJson.remove("signType");
+        String plainText = dataJson.getString("data");
+        return SignatureUtils.verify(plainText, sign, signType, CertCache.getCertCache().getPublicKey());
+    }
+
+    /**
      * 功能描述: 支付回调地址
      *
      * @param:
@@ -68,48 +83,43 @@ public class SandController {
      * @auther: xy
      */
     @PostMapping(value = "/payCallback")
-    public String payCallback(HttpServletRequest req, HttpServletResponse resp) throws ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public String payCallback(HttpServletRequest req, HttpServletResponse resp) throws ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, NoSuchAlgorithmException, SignatureException, InvalidKeyException {
         Map<String, String[]> parameterMap = req.getParameterMap();
         log.info("获取到sand response为{}", JSON.toJSONString(parameterMap));
-        if(parameterMap != null && !parameterMap.isEmpty()) {
-            String data=req.getParameter("data");
-            String sign=req.getParameter("sign");
-            String signType =req.getParameter("signType");
+        if (parameterMap != null && !parameterMap.isEmpty()) {
+            String data = req.getParameter("data");
+            String sign = req.getParameter("sign");
+            String signType = req.getParameter("signType");
             // 验证签名
             boolean valid;
             //try {
-                Class ceasClass = Class.forName("cn.com.sand.ceas.sdk.CeasHttpUtil");
-                Object o = ceasClass.newInstance();
-                Method method = ceasClass.getDeclaredMethod("verifySign", JSONObject.class);
-                method.setAccessible(true);
-
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("data",data);
-                jsonObject.put("sign",sign);
-                jsonObject.put("signType",signType);
-                //执行verifySign方法
-                valid = (boolean) method.invoke(o, jsonObject);
-                if (!valid) {//如果验签失败
-                    log.error("verify sign fail.");
-                    log.error("验签失败的签名字符串(data)为："+ data);
-                    log.error("验签失败的签名值(sign)为："+ sign);
-                }else {//验签成功
-                    log.info("verify sign success");
-                    JSONObject dataJson = JSONObject.parseObject(data);
-                    if (dataJson != null) {
-                        log.info("接收到的异步通知数据为：\n"+ JSONObject.toJSONString(dataJson, true));
-                    } else {
-                        log.error("接收异步通知数据异常！！！");
-                    }
-                    return "respCode=000000";
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("data", data);
+            jsonObject.put("sign", sign);
+            jsonObject.put("signType", signType);
+            //执行verifySign方法
+            valid = verifySign(jsonObject);
+            if (!valid) {//如果验签失败
+                log.error("verify sign fail.");
+                log.error("验签失败的签名字符串(data)为：" + data);
+                log.error("验签失败的签名值(sign)为：" + sign);
+            } else {//验签成功
+                log.info("verify sign success");
+                JSONObject dataJson = JSONObject.parseObject(data);
+                if (dataJson != null) {
+                    log.info("接收到的异步通知数据为：\n" + JSONObject.toJSONString(dataJson, true));
+                } else {
+                    log.error("接收异步通知数据异常！！！");
                 }
+                return "respCode=000000";
+            }
             /*} catch (Exception e){
                 log.error(e.getMessage());
             }*/
         }
         //log.info("获取到sand response为{}", resp);
 
-       // appEventSender.send(BusConfig.SAND_PAY_CALLBACK_ROUTING_KEY, JSONObject.parseObject(resp.));
+        // appEventSender.send(BusConfig.SAND_PAY_CALLBACK_ROUTING_KEY, JSONObject.parseObject(resp.));
         /**
          * do something
          */
