@@ -73,8 +73,8 @@ public class SandController {
             String data = req.getParameter("data");
             String sign = req.getParameter("sign");
             String signType = req.getParameter("signType");
-            log.info("data:{}", data);
-            log.info("sign:{}", sign);
+            //log.info("data:{}", data);
+            //log.info("sign:{}", sign);
             boolean valid = CryptoUtil.verifyDigitalSign(data.getBytes(encoding), Base64.decodeBase64(sign),
                     SandCertUtil.getPublicKey(), "SHA1WithRSA");
             if (!valid) {
@@ -112,8 +112,8 @@ public class SandController {
             String data=req.getParameter("data");
             String sign=req.getParameter("sign");
             String signType =req.getParameter("signType");
-            log.info("data:{}", data);
-            log.info("sign:{}", sign);
+            //log.info("data:{}", data);
+            //log.info("sign:{}", sign);
             // 验证签名
             boolean valid;
             //try {
@@ -130,11 +130,11 @@ public class SandController {
                 }else {//验签成功
                     log.info("verify sign success");
                     JSONObject dataJson = JSONObject.parseObject(data);
-                    if (dataJson != null) {
+                    /*if (dataJson != null) {
                         log.info("接收到的异步通知数据为：\n"+ JSONObject.toJSONString(dataJson, true));
                     } else {
                         log.error("接收异步通知数据异常！！！");
-                    }
+                    }*/
 
                     try{
                         /*C2CSandCallBack c2CSandCallBack = JSONObject.parseObject(data, C2CSandCallBack.class);
