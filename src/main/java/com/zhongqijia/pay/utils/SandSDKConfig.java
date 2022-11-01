@@ -32,9 +32,9 @@ import org.slf4j.LoggerFactory;
  * @Description: 
  * @version 2.0.0
  */
-public class SDKConfig {
+public class SandSDKConfig {
 	
-	public static  Logger logger = LoggerFactory.getLogger(SDKConfig.class);
+	public static  Logger logger = LoggerFactory.getLogger(SandSDKConfig.class);
 	
 	public static final String FILE_NAME = "sand_sdk.properties";
 	
@@ -65,11 +65,11 @@ public class SDKConfig {
 	public static final String SDK_SNAD_CERT_PATH = "sandsdk.sandCert.path";
 
 	/** 操作对象. */
-	private static SDKConfig config = new SDKConfig();
+	private static SandSDKConfig config = new SandSDKConfig();
 	/** 属性文件对象. */
 	private Properties properties;
 
-	private SDKConfig() {
+	private SandSDKConfig() {
 		super();
 	}
 	
@@ -77,7 +77,7 @@ public class SDKConfig {
 	 * 获取config对象.
 	 * @return
 	 */
-	public static SDKConfig getConfig() {
+	public static SandSDKConfig getConfig() {
 		return config;
 	}
 	
@@ -127,8 +127,8 @@ public class SDKConfig {
 	public void loadPropertiesFromSrc() {
 		InputStream in = null;
 		try {
-			logger.info("从classpath: " +SDKConfig.class.getClassLoader().getResource("").getPath()+" 获取属性文件"+FILE_NAME);
-			in = SDKConfig.class.getClassLoader().getResourceAsStream(FILE_NAME);
+			logger.info("从classpath: " + SandSDKConfig.class.getClassLoader().getResource("").getPath()+" 获取属性文件"+FILE_NAME);
+			in = SandSDKConfig.class.getClassLoader().getResourceAsStream(FILE_NAME);
 			if (null != in) {
 				properties = new Properties();
 				try {
@@ -137,7 +137,7 @@ public class SDKConfig {
 					throw e;
 				}
 			} else {
-				logger.error(FILE_NAME + "属性文件未能在classpath指定的目录下 "+SDKConfig.class.getClassLoader().getResource("").getPath()+" 找到!");
+				logger.error(FILE_NAME + "属性文件未能在classpath指定的目录下 "+ SandSDKConfig.class.getClassLoader().getResource("").getPath()+" 找到!");
 				return;
 			}
 			loadProperties(properties);

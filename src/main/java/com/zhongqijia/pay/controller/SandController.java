@@ -4,9 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zhongqijia.pay.config.BusConfig;
 import com.zhongqijia.pay.event.AppEventSender;
-import com.zhongqijia.pay.utils.CertUtil;
+import com.zhongqijia.pay.utils.SandCertUtil;
 import com.zhongqijia.pay.utils.CryptoUtil;
-import com.zhongqijia.pay.utils.SDKConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.math.BigInteger;
-import java.security.*;
-import java.security.spec.RSAPublicKeySpec;
 import java.util.Map;
 
 /**
@@ -78,7 +71,7 @@ public class SandController {
             log.info("data:{}", data);
             log.info("sign:{}", sign);
             boolean valid = CryptoUtil.verifyDigitalSign(data.getBytes(encoding), Base64.decodeBase64(sign),
-                    CertUtil.getPublicKey(), "SHA1WithRSA");
+                    SandCertUtil.getPublicKey(), "SHA1WithRSA");
             if (!valid) {
                 System.out.println("验签失败");
             } else {

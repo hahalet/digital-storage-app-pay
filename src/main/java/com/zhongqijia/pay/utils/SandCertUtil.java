@@ -37,12 +37,12 @@ import org.slf4j.LoggerFactory;
  * @Description: sdk证书工具类，主要用于对证书的加载和使用
  * @version 2.0.0
  */
-public class CertUtil {
+public class SandCertUtil {
 	
 	public static final String PUBLIC_KEY = "public_key";
 	public static final String PRIVATE_KEY = "private_key";
 
-	private static final Logger logger = LoggerFactory.getLogger(CertUtil.class);
+	private static final Logger logger = LoggerFactory.getLogger(SandCertUtil.class);
 
 	private static final ConcurrentHashMap<String, Object> keys = new ConcurrentHashMap<String, Object>();
 
@@ -68,12 +68,12 @@ public class CertUtil {
 			try {
 				InputStream inputStream = null;
 				if (publicKeyPath.startsWith(classpathKey)) {
-					inputStream = CertUtil.class.getClassLoader()
+					inputStream = SandCertUtil.class.getClassLoader()
 							.getResourceAsStream(publicKeyPath.substring(classpathKey.length()));
 				} else {
 					inputStream = new FileInputStream(publicKeyPath);
 				}
-				PublicKey publicKey = CertUtil.getPublicKey(inputStream);
+				PublicKey publicKey = SandCertUtil.getPublicKey(inputStream);
 				keys.put(PUBLIC_KEY, publicKey);
 			} catch (Exception e) {
 				logger.error("无法加载公钥[{}]", new Object[] { publicKeyPath });
@@ -88,12 +88,12 @@ public class CertUtil {
 		try {
 			InputStream inputStream = null;
 			if (privateKeyPath.startsWith(classpathKey)) {
-				inputStream = CertUtil.class.getClassLoader()
+				inputStream = SandCertUtil.class.getClassLoader()
 						.getResourceAsStream(privateKeyPath.substring(classpathKey.length()));
 			} else {
 				inputStream = new FileInputStream(privateKeyPath);
 			}
-			PrivateKey privateKey = CertUtil.getPrivateKey(inputStream, keyPassword);
+			PrivateKey privateKey = SandCertUtil.getPrivateKey(inputStream, keyPassword);
 			keys.put(PRIVATE_KEY, privateKey);
 		} catch (Exception e) {
 			logger.error("无法加载本地私银[{}]", new Object[] { privateKeyPath });
