@@ -142,7 +142,7 @@ public class SandController {
                     }catch(Exception e){
                         log.info("保存sand payCallback response失败:{}", e.getMessage());
                     }
-                    appEventSender.send(BusConfig.SAND_PAY_CALLBACK_C2C_QUEUE, dataJson);
+                    appEventSender.send(BusConfig.SAND_PAY_CALLBACK_C2C_ROUTING_KEY, dataJson);
                     return "respCode=000000";
                 }
             /*} catch (Exception e){
