@@ -84,6 +84,7 @@ public class SandController {
      */
     @PostMapping(value = "/payCallback")
     public String payCallback(HttpServletRequest req, HttpServletResponse resp) throws ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, NoSuchAlgorithmException, SignatureException, InvalidKeyException {
+        log.info("payCallback 开始");
         Map<String, String[]> parameterMap = req.getParameterMap();
         log.info("获取到sand response为{}", JSON.toJSONString(parameterMap));
         if (parameterMap != null && !parameterMap.isEmpty()) {
