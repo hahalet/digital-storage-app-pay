@@ -21,7 +21,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("log_sand_pay_call_back")
-public class LogSandPayCallBack extends Model<LogSandPayCallBack> {
+public class C2BLogSandPayCallBack extends Model<C2BLogSandPayCallBack> {
 
     private static final long serialVersionUID=1L;
 

@@ -45,6 +45,9 @@ public class BusConfig {
     public static final String SAND_PAY_CALLBACK_QUEUE = "sand.pay.callback.queue";
     public static final String SAND_PAY_CALLBACK_ROUTING_KEY = "sand.pay.callback.routingkey";
 
+    public static final String SAND_PAY_CALLBACK_C2C_QUEUE = "sand.pay.c2c.callback.queue";
+    public static final String SAND_PAY_CALLBACK_C2C_ROUTING_KEY = "sand.pay.c2c.callback.routingkey";
+
     @Bean
     public MessageConverter messageConverter() {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -137,6 +140,21 @@ public class BusConfig {
     Binding bindingSandPayCallback(@Qualifier(SAND_PAY_CALLBACK_QUEUE) Queue queue, @Qualifier(RABBIT_APP_EXCHANGE) TopicExchange exchange) {
         log.info("bindingSandCallback {} to {} with {}", queue, exchange, SAND_PAY_CALLBACK_ROUTING_KEY);
         return BindingBuilder.bind(queue).to(exchange).with(SAND_PAY_CALLBACK_ROUTING_KEY);
+    }
+
+    /**
+     * 杉德支付队列C2C
+     */
+    @Bean(SAND_PAY_CALLBACK_C2C_QUEUE)
+    Queue queueSandPayC2CCallback() {
+        log.info("queue name:{}", SAND_PAY_CALLBACK_C2C_QUEUE);
+        return new Queue(SAND_PAY_CALLBACK_C2C_QUEUE, false);
+    }
+
+    @Bean(SAND_PAY_CALLBACK_C2C_ROUTING_KEY)
+    Binding bindingSandPayC2CCallback(@Qualifier(SAND_PAY_CALLBACK_C2C_QUEUE) Queue queue, @Qualifier(RABBIT_APP_EXCHANGE) TopicExchange exchange) {
+        log.info("bindingSandCallback {} to {} with {}", queue, exchange, SAND_PAY_CALLBACK_C2C_ROUTING_KEY);
+        return BindingBuilder.bind(queue).to(exchange).with(SAND_PAY_CALLBACK_C2C_ROUTING_KEY);
     }
 
 }

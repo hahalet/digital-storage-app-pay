@@ -38,6 +38,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -418,6 +419,16 @@ public class CryptoUtil {
 		}
 		return sb.toString();
 	}
-	
-	
+
+	/**
+	 * 验签方法
+	 */
+	public static boolean verifySignC2C(JSONObject dataJson) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
+		String sign = dataJson.getString("sign");
+		String signType = dataJson.getString("signType");
+		dataJson.remove("sign");
+		dataJson.remove("signType");
+		String plainText = dataJson.getString("data");
+		return SignatureUtils.verify(plainText, sign, signType, CertCache.getCertCache().getPublicKey());
+	}
 }

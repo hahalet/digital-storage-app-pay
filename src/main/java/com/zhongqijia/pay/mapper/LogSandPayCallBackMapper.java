@@ -1,7 +1,7 @@
 package com.zhongqijia.pay.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zhongqijia.pay.bean.paysand.LogSandPayCallBack;
+import com.zhongqijia.pay.bean.paysand.C2BLogSandPayCallBack;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Mapper
-public interface LogSandPayCallBackMapper extends BaseMapper<LogSandPayCallBack> {
+public interface LogSandPayCallBackMapper extends BaseMapper<C2BLogSandPayCallBack> {
 
 }

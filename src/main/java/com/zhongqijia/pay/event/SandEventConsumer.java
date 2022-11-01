@@ -1,23 +1,15 @@
 package com.zhongqijia.pay.event;
 
 import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.zhongqijia.pay.bean.*;
-import com.zhongqijia.pay.bean.paysand.SandPayCallBack;
-import com.zhongqijia.pay.bean.payyop.LogYopCreatAccount;
-import com.zhongqijia.pay.bean.payyop.LogYopPayCallBack;
+import com.zhongqijia.pay.bean.paysand.C2BSandPayCallBack;
+import com.zhongqijia.pay.bean.paysand.C2CSandCallBack;
 import com.zhongqijia.pay.common.util.RedisUtil;
 import com.zhongqijia.pay.config.BusConfig;
 import com.zhongqijia.pay.mapper.*;
-import com.zhongqijia.pay.utils.RedisHelp;
-import com.zhongqijia.pay.utils.TiChainPayUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Slf4j
 @Component
@@ -55,15 +47,26 @@ public class SandEventConsumer {
 
     @RabbitListener(queues = BusConfig.SAND_PAY_CALLBACK_QUEUE)
     public void payCallback(JSONObject message) {
-            SandPayCallBack sandPayCallBack = JSONObject.parseObject(message.toJSONString(), SandPayCallBack.class);
+            C2BSandPayCallBack c2BSandPayCallBack = JSONObject.parseObject(message.toJSONString(), C2BSandPayCallBack.class);
             log.info("sand payCallback处理:{}",message.toJSONString());
-            log.info("sand payCallback处理订单:{}",sandPayCallBack.getBody().getTradeNo());
-            String orderNo = sandPayCallBack.getBody().getTradeNo();
-        if (sandPayCallBack.getHead().getRespCode().equals("000000") &&
-                sandPayCallBack.getHead().getRespMsg().equals("成功")) {
+            log.info("sand payCallback处理订单:{}", c2BSandPayCallBack.getBody().getTradeNo());
+            String orderNo = c2BSandPayCallBack.getBody().getTradeNo();
+        if (c2BSandPayCallBack.getHead().getRespCode().equals("000000") &&
+                c2BSandPayCallBack.getHead().getRespMsg().equals("成功")) {
             YopEventConsumer.payCheck(redisUtil, orderNo, myOrderMapper, collectionMapper,
                     hideRecordMapper, blindboxMapper, issueMapper,
                     signupMapper, myboxMapper, userGrantMapper);
         }
+    }
+
+    @RabbitListener(queues = BusConfig.SAND_PAY_CALLBACK_C2C_QUEUE)
+    public void payCallbackC2C(JSONObject message) {
+        C2CSandCallBack c2CSandCallBack = JSONObject.parseObject(message.toJSONString(), C2CSandCallBack.class);
+        log.info("sand payCallbackC2C处理:{}",message.toJSONString());
+        log.info("sand payCallbackC2C处理:{}", c2CSandCallBack.getOrderNo());
+        String orderNo = c2CSandCallBack.getOrderNo();
+        YopEventConsumer.payCheck(redisUtil, orderNo, myOrderMapper, collectionMapper,
+                hideRecordMapper, blindboxMapper, issueMapper,
+                signupMapper, myboxMapper, userGrantMapper);
     }
 }

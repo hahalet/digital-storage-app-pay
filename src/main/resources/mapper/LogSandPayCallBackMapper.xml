@@ -3,7 +3,7 @@
 <mapper namespace="com.zhongqijia.pay.mapper.LogSandPayCallBackMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.zhongqijia.pay.bean.paysand.LogSandPayCallBack">
+    <resultMap id="BaseResultMap" type="com.zhongqijia.pay.bean.paysand.C2BLogSandPayCallBack">
         <id column="id" property="id" />
         <result column="mid" property="mid" />
         <result column="order_code" property="orderCode" />
