@@ -107,11 +107,13 @@ public class SandController {
     @PostMapping(value = "/payCallbackC2C")
     public String payCallbackC2C(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         Map<String, String[]> parameterMap = req.getParameterMap();
+        log.info("获取到sand payCallbackC2C response为{}", JSON.toJSONString(parameterMap));
         if(parameterMap != null && !parameterMap.isEmpty()) {
             String data=req.getParameter("data");
-            log.info("data:{}",data);
             String sign=req.getParameter("sign");
             String signType =req.getParameter("signType");
+            log.info("data:{}", data);
+            log.info("sign:{}", sign);
             // 验证签名
             boolean valid;
             //try {
