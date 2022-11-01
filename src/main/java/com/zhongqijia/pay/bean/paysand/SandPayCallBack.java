@@ -7,5 +7,5 @@ public class SandPayCallBack
 {
     private SandPayHead head;
 
-    private SandPayBody body;
+    private LogSandPayCallBack body;
 }

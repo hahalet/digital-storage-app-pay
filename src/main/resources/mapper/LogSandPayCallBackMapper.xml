@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongqijia.pay.mapper.LogSandPayCallBackMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zhongqijia.pay.bean.paysand.LogSandPayCallBack">
+        <id column="id" property="id" />
+        <result column="mid" property="mid" />
+        <result column="order_code" property="orderCode" />
+        <result column="trade_no" property="tradeNo" />
+        <result column="clear_date" property="clearDate" />
+        <result column="total_amount" property="totalAmount" />
+        <result column="order_status" property="orderStatus" />
+        <result column="pay_time" property="payTime" />
+        <result column="settle_amount" property="settleAmount" />
+        <result column="buyer_pay_amount" property="buyerPayAmount" />
+        <result column="disc_amount" property="discAmount" />
+        <result column="txn_complete_time" property="txnCompleteTime" />
+        <result column="pay_order_code" property="payOrderCode" />
+        <result column="acc_logon_no" property="accLogonNo" />
+        <result column="acc_no" property="accNo" />
+        <result column="mid_fee" property="midFee" />
+        <result column="extra_fee" property="extraFee" />
+        <result column="special_fee" property="specialFee" />
+        <result column="pl_mid_fee" property="plMidFee" />
+        <result column="bankserial" property="bankserial" />
+        <result column="external_product_code" property="externalProductCode" />
+        <result column="card_no" property="cardNo" />
+        <result column="credit_flag" property="creditFlag" />
+        <result column="bid" property="bid" />
+        <result column="benefit_amount" property="benefitAmount" />
+        <result column="remittance_code" property="remittanceCode" />
+        <result column="extend" property="extend" />
+        <result column="account_amt" property="accountAmt" />
+        <result column="master_account" property="masterAccount" />
+        <result column="response" property="response" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, mid, order_code, trade_no, clear_date, total_amount, order_status, pay_time, settle_amount, buyer_pay_amount, disc_amount, txn_complete_time, pay_order_code, acc_logon_no, acc_no, mid_fee, extra_fee, special_fee, pl_mid_fee, bankserial, external_product_code, card_no, credit_flag, bid, benefit_amount, remittance_code, extend, account_amt, master_account, response, create_time
+    </sql>
+
+</mapper>

@@ -2,10 +2,12 @@ package com.zhongqijia.pay.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.zhongqijia.pay.bean.paysand.LogSandPayCallBack;
 import com.zhongqijia.pay.bean.paysand.SandPayCallBack;
 import com.zhongqijia.pay.bean.payyop.LogYopPayCallBack;
 import com.zhongqijia.pay.config.BusConfig;
 import com.zhongqijia.pay.event.AppEventSender;
+import com.zhongqijia.pay.mapper.LogSandPayCallBackMapper;
 import com.zhongqijia.pay.utils.DateUtils;
 import com.zhongqijia.pay.utils.SandCertUtil;
 import com.zhongqijia.pay.utils.CryptoUtil;
@@ -32,6 +34,9 @@ public class SandController {
 
     @Autowired
     private AppEventSender appEventSender;
+
+    @Autowired
+    private LogSandPayCallBackMapper logSandPayCallBackMapper;
 
     /**
      * 功能描述: 钱包回调地址
@@ -75,14 +80,15 @@ public class SandController {
             boolean valid = CryptoUtil.verifyDigitalSign(data.getBytes(encoding), Base64.decodeBase64(sign),
                     SandCertUtil.getPublicKey(), "SHA1WithRSA");
             if (!valid) {
-                System.out.println("验签失败");
+                System.out.println("sand payCallback 验签失败");
             } else {
-                System.out.println("验签成功");
+                System.out.println("sand payCallback 验签成功");
                 SandPayCallBack sandPayCallBack = JSONObject.parseObject(data, SandPayCallBack.class);
                 try{
-                    /*logYopPayCallBack.setResponse(response);
-                    logYopPayCallBack.setCreateTime(DateUtils.getCurrentTimeStamp());
-                    logYopPayCallBackMapper.insert(logYopPayCallBack);*/
+                    LogSandPayCallBack logSandPayCallBack = sandPayCallBack.getBody();
+                    logSandPayCallBack.setResponse(data);
+                    logSandPayCallBack.setCreateTime(DateUtils.getCurrentTimeStamp());
+                    logSandPayCallBackMapper.insert(logSandPayCallBack);
                 }catch(Exception e){
                     log.info("保存sand payCallback response失败:{}", e.getMessage());
                 }
