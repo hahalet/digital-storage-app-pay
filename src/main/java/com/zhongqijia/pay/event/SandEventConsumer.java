@@ -45,11 +45,11 @@ public class SandEventConsumer {
 
     @RabbitListener(queues = BusConfig.SAND_WALLET_CALLBACK_QUEUE)
     public void walletCallback(JSONObject message) {
-        log.info("YopEventConsumer message = {}", message);
+        log.info("SandEventConsumer message = {}", message);
         try {
 
         } catch (Exception e) {
-            log.info("walletCallback error:{}", e.getMessage());
+            log.info("Sand walletCallback error:{}", e.getMessage());
         }
     }
 

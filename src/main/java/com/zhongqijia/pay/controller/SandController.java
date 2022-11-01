@@ -41,16 +41,16 @@ public class SandController {
      * @auther: xy
      */
     @PostMapping(value = "/walletCallback")
-    public String walletCallback(String response) {
-        log.info("获取到sand walletCallback response为{}", response);
-
+    public String walletCallback(HttpServletRequest req, HttpServletResponse resp) {
+        Map<String, String[]> parameterMap = req.getParameterMap();
+        log.info("获取到sand walletCallback response为{}", JSON.toJSONString(parameterMap));
 
         /**
          * do something
          */
         // 收到天河链回调通知需回写大写“SUCCESS”，如没有回写则最多通知 9次，
         // 重试延迟时间分别为：5,5,20,270,600,900,1800,3600,14400（秒），9次后没有拿到回写则停止通知
-        appEventSender.send(BusConfig.SAND_WALLET_CALLBACK_ROUTING_KEY, JSONObject.parseObject(response));
+        //appEventSender.send(BusConfig.SAND_WALLET_CALLBACK_ROUTING_KEY, JSONObject.parseObject(response));
         return "SUCCESS";
     }
     // 默认配置的是UTF-8
@@ -64,9 +64,8 @@ public class SandController {
      */
     @PostMapping(value = "/payCallback")
     public String payCallback(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        log.info("sand payCallback 开始");
         Map<String, String[]> parameterMap = req.getParameterMap();
-        log.info("获取到sand response为{}", JSON.toJSONString(parameterMap));
+        log.info("获取到sand payCallback response为{}", JSON.toJSONString(parameterMap));
         if (parameterMap != null && !parameterMap.isEmpty()) {
             String data = req.getParameter("data");
             String sign = req.getParameter("sign");
