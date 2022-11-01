@@ -2,8 +2,11 @@ package com.zhongqijia.pay.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.zhongqijia.pay.bean.paysand.SandPayCallBack;
+import com.zhongqijia.pay.bean.payyop.LogYopPayCallBack;
 import com.zhongqijia.pay.config.BusConfig;
 import com.zhongqijia.pay.event.AppEventSender;
+import com.zhongqijia.pay.utils.DateUtils;
 import com.zhongqijia.pay.utils.SandCertUtil;
 import com.zhongqijia.pay.utils.CryptoUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -61,7 +64,7 @@ public class SandController {
      */
     @PostMapping(value = "/payCallback")
     public String payCallback(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        log.info("payCallback 开始");
+        log.info("sand payCallback 开始");
         Map<String, String[]> parameterMap = req.getParameterMap();
         log.info("获取到sand response为{}", JSON.toJSONString(parameterMap));
         if (parameterMap != null && !parameterMap.isEmpty()) {
@@ -76,6 +79,15 @@ public class SandController {
                 System.out.println("验签失败");
             } else {
                 System.out.println("验签成功");
+                SandPayCallBack sandPayCallBack = JSONObject.parseObject(data, SandPayCallBack.class);
+                try{
+                    /*logYopPayCallBack.setResponse(response);
+                    logYopPayCallBack.setCreateTime(DateUtils.getCurrentTimeStamp());
+                    logYopPayCallBackMapper.insert(logYopPayCallBack);*/
+                }catch(Exception e){
+                    log.info("保存sand payCallback response失败:{}", e.getMessage());
+                }
+                appEventSender.send(BusConfig.SAND_PAY_CALLBACK_ROUTING_KEY, JSONObject.parseObject(data));
             }
             return "SUCCESS";
         }

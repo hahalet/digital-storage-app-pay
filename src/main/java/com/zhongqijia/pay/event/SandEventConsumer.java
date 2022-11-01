@@ -3,6 +3,7 @@ package com.zhongqijia.pay.event;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zhongqijia.pay.bean.*;
+import com.zhongqijia.pay.bean.paysand.SandPayCallBack;
 import com.zhongqijia.pay.bean.payyop.LogYopCreatAccount;
 import com.zhongqijia.pay.bean.payyop.LogYopPayCallBack;
 import com.zhongqijia.pay.common.util.RedisUtil;
@@ -54,6 +55,15 @@ public class SandEventConsumer {
 
     @RabbitListener(queues = BusConfig.SAND_PAY_CALLBACK_QUEUE)
     public void payCallback(JSONObject message) {
-        //锁一分钟,检查订单状态不允许回调修改订单
+            SandPayCallBack sandPayCallBack = JSONObject.parseObject(message.toJSONString(), SandPayCallBack.class);
+            log.info("sand payCallback处理:{}",message.toJSONString());
+            log.info("sand payCallback处理订单:{}",sandPayCallBack.getBody().getTradeNo());
+            String orderNo = sandPayCallBack.getBody().getTradeNo();
+        if (sandPayCallBack.getHead().getRespCode().equals("000000") &&
+                sandPayCallBack.getHead().getRespMsg().equals("成功")) {
+            YopEventConsumer.payCheck(redisUtil, orderNo, myOrderMapper, collectionMapper,
+                    hideRecordMapper, blindboxMapper, issueMapper,
+                    signupMapper, myboxMapper, userGrantMapper);
+        }
     }
 }

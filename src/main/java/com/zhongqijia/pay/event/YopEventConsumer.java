@@ -59,29 +59,53 @@ public class YopEventConsumer {
     @RabbitListener(queues = BusConfig.YOP_PAY_CALLBACK_QUEUE)
     public void payCallback(JSONObject message) {
         //锁一分钟,检查订单状态不允许回调修改订单
-        redisUtil.getKey(RedisHelp.CHECK_ORDER_STATUS_LOCK_KEY,RedisHelp.CHECK_ORDER_STATUS_LOCK_VALUE);
+        LogYopPayCallBack logYopPayCallBack = JSONObject.parseObject(message.toJSONString(), LogYopPayCallBack.class);
+        String orderNo = logYopPayCallBack.getOrderId();
+        if (logYopPayCallBack.getStatus().equals(TiChainPayUtil.SUCCESS)) {
+            payCheck(redisUtil, orderNo, myOrderMapper, collectionMapper,
+                    hideRecordMapper, blindboxMapper, issueMapper,
+                    signupMapper, myboxMapper, userGrantMapper);
+        }
+    }
+
+    /**
+     * 支付回调处理
+     * @param redisUtil
+     * @param orderNo
+     * @param myOrderMapper
+     * @param collectionMapper
+     * @param hideRecordMapper
+     * @param blindboxMapper
+     * @param issueMapper
+     * @param signupMapper
+     * @param myboxMapper
+     * @param userGrantMapper
+     */
+    public static void payCheck(RedisUtil redisUtil, String orderNo, MyOrderMapper myOrderMapper, CollectionMapper collectionMapper,
+                                HideRecordMapper hideRecordMapper, BlindboxMapper blindboxMapper, IssueMapper issueMapper,
+                                SignupMapper signupMapper, MyboxMapper myboxMapper, UserGrantMapper userGrantMapper) {
+        //锁一分钟,检查订单状态不允许回调修改订单
+        redisUtil.getKey(RedisHelp.CHECK_ORDER_STATUS_LOCK_KEY, RedisHelp.CHECK_ORDER_STATUS_LOCK_VALUE);
         try {
-            LogYopPayCallBack logYopPayCallBack = JSONObject.parseObject(message.toJSONString(), LogYopPayCallBack.class);
-            String orderNo = logYopPayCallBack.getOrderId();
             if (orderNo == null || orderNo.length() == 0) {
                 redisUtil.delete(RedisHelp.CHECK_ORDER_STATUS_LOCK_KEY);
                 return;
             }
             boolean firstOrder = orderNo.startsWith(TiChainPayUtil.FIRST_ORDER);
-            if (firstOrder && logYopPayCallBack.getStatus().equals(TiChainPayUtil.SUCCESS)) {
+            if (firstOrder) {
                 orderNo = orderNo.substring(TiChainPayUtil.FIRST_ORDER.length());
-                QueryWrapper<MyOrder> queryWrapper=new QueryWrapper();
-                queryWrapper.eq("orderno",orderNo);
-                queryWrapper.ne("ordertype",2);
+                QueryWrapper<MyOrder> queryWrapper = new QueryWrapper();
+                queryWrapper.eq("orderno", orderNo);
+                queryWrapper.ne("ordertype", 2);
 
                 List<MyOrder> myOrders = myOrderMapper.selectList(queryWrapper);
-                if(myOrders==null || myOrders.size()==0){
+                if (myOrders == null || myOrders.size() == 0) {
                     redisUtil.delete(RedisHelp.CHECK_ORDER_STATUS_LOCK_KEY);
                     return;
                 }
                 if (myOrders.size() > 0) {
                     MyOrder myOrder = myOrders.get(0);
-                    if(myOrder.getGrants()==2){//已发放不重复发放
+                    if (myOrder.getGrants() == 2) {//已发放不重复发放
                         redisUtil.delete(RedisHelp.CHECK_ORDER_STATUS_LOCK_KEY);
                         return;
                     }
@@ -89,7 +113,7 @@ public class YopEventConsumer {
                     myOrder.setPaytype(5);
                     myOrder.setOrdertype(1);
                     myOrderMapper.updateById(myOrder);
-                    RedisHelp.refreshMyOrder(myOrder,redisUtil);
+                    RedisHelp.refreshMyOrder(myOrder, redisUtil);
                     if (myOrder.getIstype() == 1) {//藏品+出售
                         Collection collection = collectionMapper.selectById(myOrder.getCollid());
                         HideRecord hideRecord = new HideRecord();
@@ -118,9 +142,9 @@ public class YopEventConsumer {
                     if (myOrder.getGinsengtype() == 2) {
                         Issue issue = issueMapper.selectById(myOrder.getCyid());
                         QueryWrapper<Signup> queryWrapperSignup = new QueryWrapper();
-                        queryWrapperSignup.eq("userid",myOrder.getCyid());
-                        queryWrapperSignup.eq("isid",myOrder.getUserid());
-                        queryWrapperSignup.eq("begintime",issue.getReleasetime());
+                        queryWrapperSignup.eq("userid", myOrder.getCyid());
+                        queryWrapperSignup.eq("isid", myOrder.getUserid());
+                        queryWrapperSignup.eq("begintime", issue.getReleasetime());
                         if (signupMapper.selectList(queryWrapperSignup).size() == 0) {
                             Signup signup = new Signup();
                             signup.setUserid(myOrder.getUserid());
@@ -132,8 +156,8 @@ public class YopEventConsumer {
                         }
                     } else {
                         QueryWrapper<Mybox> queryWrapperMybox = new QueryWrapper();
-                        queryWrapperMybox.eq("userid",myOrder.getUserid());
-                        queryWrapperMybox.eq("orderid",myOrder.getId());
+                        queryWrapperMybox.eq("userid", myOrder.getUserid());
+                        queryWrapperMybox.eq("orderid", myOrder.getId());
                         if (myboxMapper.selectList(queryWrapperMybox).size() == 0) {
                             Mybox mybox = new Mybox();
                             mybox.setUserid(myOrder.getUserid());
