@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 
@@ -67,7 +68,7 @@ public class SandController {
      * @auther: xy
      */
     @PostMapping(value = "/payCallback")
-    public String payCallback(HttpServletRequest req, HttpServletResponse resp){
+    public String payCallback(HttpServletRequest req, HttpServletResponse resp) throws ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         Map<String, String[]> parameterMap = req.getParameterMap();
         log.info("获取到sand response为{}", JSON.toJSONString(parameterMap));
         if(parameterMap != null && !parameterMap.isEmpty()) {
@@ -76,7 +77,7 @@ public class SandController {
             String signType =req.getParameter("signType");
             // 验证签名
             boolean valid;
-            try {
+            //try {
                 Class ceasClass = Class.forName("cn.com.sand.ceas.sdk.CeasHttpUtil");
                 Object o = ceasClass.newInstance();
                 Method method = ceasClass.getDeclaredMethod("verifySign", JSONObject.class);
@@ -102,9 +103,9 @@ public class SandController {
                     }
                     return "respCode=000000";
                 }
-            } catch (Exception e){
+            /*} catch (Exception e){
                 log.error(e.getMessage());
-            }
+            }*/
         }
         //log.info("获取到sand response为{}", resp);
 
