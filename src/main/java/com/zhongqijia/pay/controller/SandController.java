@@ -86,7 +86,6 @@ public class SandController {
     public String payCallback(HttpServletRequest req, HttpServletResponse resp) throws ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, NoSuchAlgorithmException, SignatureException, InvalidKeyException {
         Map<String, String[]> parameterMap = req.getParameterMap();
         log.info("获取到sand response为{}", JSON.toJSONString(parameterMap));
-        JSON.
         if (parameterMap != null && !parameterMap.isEmpty()) {
             String data = req.getParameter("data");
             String sign = req.getParameter("sign");
