@@ -176,8 +176,7 @@ public class YopEventConsumer {
                 if (userGrant != null) {
                     if (userGrant.getType() == 2) {
                         userGrant.setType(5);
-                        userGrant.setPaytype(5);
-                        userGrant.setType(3);
+                        userGrant.setPaytype(6);
                         userGrantMapper.updateById(userGrant);
                     }
                 }
