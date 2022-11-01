@@ -172,6 +172,7 @@ public class YopEventConsumer {
                 orderNo = orderNo.substring(TiChainPayUtil.SECOND_ORDER.length());
                 String idTime[] = orderNo.split("_");
                 orderNo = idTime[0];
+                log.info("orderNo:{}",orderNo);
                 UserGrant userGrant = userGrantMapper.selectById(Integer.parseInt(orderNo));
                 if (userGrant != null) {
                     if (userGrant.getType() == 2) {
