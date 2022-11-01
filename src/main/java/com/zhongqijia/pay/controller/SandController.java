@@ -83,8 +83,8 @@ public class SandController {
             // 验证签名
             boolean valid;
             try {
-                Class ceasClass = CeasHttpUtil.class;
-                CeasHttpUtil o = new CeasHttpUtil();
+                Class ceasClass = Class.forName("cn.com.sand.ceas.sdk.CeasHttpUtil");
+                Object o = ceasClass.newInstance();
                 Method method = ceasClass.getDeclaredMethod("verifySign", JSONObject.class);
                 method.setAccessible(true);
 
