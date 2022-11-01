@@ -2,6 +2,7 @@ package com.zhongqijia.pay.controller;
 
 import cn.com.sand.ceas.sdk.CeasHttpUtil;
 import cn.com.sand.ceas.sdk.config.ConfigLoader;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zhongqijia.pay.bean.payyop.LogYopCreatAccount;
 import com.zhongqijia.pay.bean.payyop.LogYopPayCallBack;
@@ -74,7 +75,7 @@ public class SandController {
     @PostMapping(value = "/payCallback")
     public String payCallback(HttpServletRequest req, HttpServletResponse resp){
         Map<String, String[]> parameterMap = req.getParameterMap();
-        log.info("获取到sand response为{}", parameterMap);
+        log.info("获取到sand response为{}", JSON.toJSONString(parameterMap));
         if(parameterMap != null && !parameterMap.isEmpty()) {
             String data=req.getParameter("data");
             String sign=req.getParameter("sign");
