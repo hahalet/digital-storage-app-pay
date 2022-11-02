@@ -5,8 +5,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.zhongqijia.pay.bean.paysand.C2BLogSandPayCallBack;
 import com.zhongqijia.pay.bean.paysand.C2BSandPayCallBack;
 import com.zhongqijia.pay.bean.paysand.C2CSandCallBack;
+import com.zhongqijia.pay.bean.paysand.LogSandPayC2cCallBack;
 import com.zhongqijia.pay.config.BusConfig;
 import com.zhongqijia.pay.event.AppEventSender;
+import com.zhongqijia.pay.mapper.LogSandPayC2cCallBackMapper;
 import com.zhongqijia.pay.mapper.LogSandPayCallBackMapper;
 import com.zhongqijia.pay.utils.*;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +37,9 @@ public class SandController {
 
     @Autowired
     private LogSandPayCallBackMapper logSandPayCallBackMapper;
+
+    @Autowired
+    private LogSandPayC2cCallBackMapper logSandPayC2cCallBackMapper;
 
     /**
      * 功能描述: 钱包回调地址
@@ -137,10 +142,18 @@ public class SandController {
                     }*/
 
                     try{
-                        /*C2CSandCallBack c2CSandCallBack = JSONObject.parseObject(data, C2CSandCallBack.class);
-                        c2BLogSandPayCallBack.setResponse(data);
-                        c2BLogSandPayCallBack.setCreateTime(DateUtils.getCurrentTimeStamp());
-                        logSandPayCallBackMapper.insert(c2BLogSandPayCallBack);*/
+                        C2CSandCallBack c2CSandCallBack = JSONObject.parseObject(data, C2CSandCallBack.class);
+                        LogSandPayC2cCallBack logSandPayC2cCallBack = JSONObject.parseObject(data, LogSandPayC2cCallBack.class);
+                        logSandPayC2cCallBack.setPayeeAccNo(c2CSandCallBack.getPayeeInfo().getPayeeAccNo());
+                        logSandPayC2cCallBack.setPayeeMemId(c2CSandCallBack.getPayeeInfo().getPayeeMemID());
+                        logSandPayC2cCallBack.setPayeeAccName(c2CSandCallBack.getPayeeInfo().getPayeeAccName());
+                        logSandPayC2cCallBack.setPayerAccNo(c2CSandCallBack.getPayerInfo().getPayerAccNo());
+                        logSandPayC2cCallBack.setPayerMemId(c2CSandCallBack.getPayerInfo().getPayerMemID());
+                        logSandPayC2cCallBack.setPayerAccName(c2CSandCallBack.getPayerInfo().getPayerAccName());
+
+                        logSandPayC2cCallBack.setResponse(data);
+                        logSandPayC2cCallBack.setCreateTime(DateUtils.getCurrentTimeStamp());
+                        logSandPayC2cCallBackMapper.insert(logSandPayC2cCallBack);
                     }catch(Exception e){
                         log.info("保存sand payCallback response失败:{}", e.getMessage());
                     }
