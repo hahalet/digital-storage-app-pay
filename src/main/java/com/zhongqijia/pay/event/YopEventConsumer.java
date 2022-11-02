@@ -61,8 +61,12 @@ public class YopEventConsumer {
         //锁一分钟,检查订单状态不允许回调修改订单
         LogYopPayCallBack logYopPayCallBack = JSONObject.parseObject(message.toJSONString(), LogYopPayCallBack.class);
         String orderNo = logYopPayCallBack.getOrderId();
-        if (logYopPayCallBack.getStatus().equals(TiChainPayUtil.SUCCESS)) {
-            payCheck(redisUtil, orderNo, myOrderMapper, collectionMapper,
+        if (orderNo == null || orderNo.length() == 0) {
+            return;
+        }
+        boolean firstOrder = orderNo.startsWith(TiChainPayUtil.FIRST_ORDER);
+        if (firstOrder && logYopPayCallBack.getStatus().equals(TiChainPayUtil.SUCCESS)) {
+            payCheckFirst(redisUtil, orderNo, myOrderMapper, collectionMapper,
                     hideRecordMapper, blindboxMapper, issueMapper,
                     signupMapper, myboxMapper, userGrantMapper);
         }
@@ -81,18 +85,13 @@ public class YopEventConsumer {
      * @param myboxMapper
      * @param userGrantMapper
      */
-    public static void payCheck(RedisUtil redisUtil, String orderNo, MyOrderMapper myOrderMapper, CollectionMapper collectionMapper,
-                                HideRecordMapper hideRecordMapper, BlindboxMapper blindboxMapper, IssueMapper issueMapper,
-                                SignupMapper signupMapper, MyboxMapper myboxMapper, UserGrantMapper userGrantMapper) {
+    public static void payCheckFirst(RedisUtil redisUtil, String orderNo, MyOrderMapper myOrderMapper, CollectionMapper collectionMapper,
+                                     HideRecordMapper hideRecordMapper, BlindboxMapper blindboxMapper, IssueMapper issueMapper,
+                                     SignupMapper signupMapper, MyboxMapper myboxMapper, UserGrantMapper userGrantMapper) {
         //锁一分钟,检查订单状态不允许回调修改订单
         redisUtil.getKey(RedisHelp.CHECK_ORDER_STATUS_LOCK_KEY, RedisHelp.CHECK_ORDER_STATUS_LOCK_VALUE);
         try {
-            if (orderNo == null || orderNo.length() == 0) {
-                redisUtil.delete(RedisHelp.CHECK_ORDER_STATUS_LOCK_KEY);
-                return;
-            }
-            boolean firstOrder = orderNo.startsWith(TiChainPayUtil.FIRST_ORDER);
-            if (firstOrder) {
+            {
                 orderNo = orderNo.split("_")[0];
                 orderNo = orderNo.substring(TiChainPayUtil.FIRST_ORDER.length());
                 QueryWrapper<MyOrder> queryWrapper = new QueryWrapper();
@@ -169,25 +168,48 @@ public class YopEventConsumer {
                         }
                     }
                 }
-            } else {//二级市场
-                orderNo = orderNo.substring(TiChainPayUtil.SECOND_ORDER.length());
-                String idTime[] = orderNo.split("_");
-                orderNo = idTime[0];
-                String time  = idTime[1];
-                long timeLong = Long.parseLong(time);
-                log.info("orderNo:{}",orderNo);
-                UserGrant userGrant = userGrantMapper.selectById(Integer.parseInt(orderNo));
-                if (userGrant != null && userGrant.getBuytime()!=null && userGrant.getBuytime().getTime() == timeLong) {
-                    if (userGrant.getType() == 2) {
-                        userGrant.setType(5);
-                        userGrant.setPaytype(6);
-                        userGrantMapper.updateById(userGrant);
-                    }
+            }
+        } catch (Exception e) {
+            log.info("一级市场支付回调执行失败error:{}", e.getMessage());
+        }
+        redisUtil.delete(RedisHelp.CHECK_ORDER_STATUS_LOCK_KEY);
+    }
+
+    /**
+     * 二级支付回调处理
+     * @param redisUtil
+     * @param orderNo
+     * @param myOrderMapper
+     * @param collectionMapper
+     * @param hideRecordMapper
+     * @param blindboxMapper
+     * @param issueMapper
+     * @param signupMapper
+     * @param myboxMapper
+     * @param userGrantMapper
+     */
+    public static void payCheckSecond(RedisUtil redisUtil, String orderNo, MyOrderMapper myOrderMapper, CollectionMapper collectionMapper,
+                                     HideRecordMapper hideRecordMapper, BlindboxMapper blindboxMapper, IssueMapper issueMapper,
+                                     SignupMapper signupMapper, MyboxMapper myboxMapper, UserGrantMapper userGrantMapper) {
+        //锁一分钟,检查订单状态不允许回调修改订单
+        redisUtil.getKey(RedisHelp.CHECK_ORDER_C2C_STATUS_LOCK_KEY, RedisHelp.CHECK_ORDER_C2C_STATUS_LOCK_VALUE);
+        try {
+            orderNo = orderNo.substring(TiChainPayUtil.SECOND_ORDER.length());
+            String idTime[] = orderNo.split("_");
+            orderNo = idTime[0];
+            String time  = idTime[1];
+            long timeLong = Long.parseLong(time);
+            UserGrant userGrant = userGrantMapper.selectById(Integer.parseInt(orderNo));
+            if (userGrant != null && userGrant.getBuytime()!=null && userGrant.getBuytime().getTime() == timeLong) {
+                if (userGrant.getType() == 2) {
+                    userGrant.setType(5);
+                    userGrant.setPaytype(6);
+                    userGrantMapper.updateById(userGrant);
                 }
             }
         } catch (Exception e) {
-            log.info("支付回调执行失败error:{}", e.getMessage());
+            log.info("二级市场支付回调执行失败error:{}", e.getMessage());
         }
-        redisUtil.delete(RedisHelp.CHECK_ORDER_STATUS_LOCK_KEY);
+        redisUtil.delete(RedisHelp.CHECK_ORDER_C2C_STATUS_LOCK_KEY);
     }
 }
