@@ -8,6 +8,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+import java.util.Date;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -66,12 +68,12 @@ public class UserGrant extends Model<UserGrant> {
     /**
      * 购买时间
      */
-    private LocalDateTime buytime;
+    private Date buytime;
 
     /**
      * 付款截止时间
      */
-    private LocalDateTime endtime;
+    private Date endtime;
 
     /**
      * 出售价格
