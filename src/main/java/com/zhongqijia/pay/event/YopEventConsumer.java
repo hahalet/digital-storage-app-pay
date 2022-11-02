@@ -93,6 +93,7 @@ public class YopEventConsumer {
             }
             boolean firstOrder = orderNo.startsWith(TiChainPayUtil.FIRST_ORDER);
             if (firstOrder) {
+                orderNo = orderNo.split("_")[0];
                 orderNo = orderNo.substring(TiChainPayUtil.FIRST_ORDER.length());
                 QueryWrapper<MyOrder> queryWrapper = new QueryWrapper();
                 queryWrapper.eq("orderno", orderNo);
