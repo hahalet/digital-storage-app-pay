@@ -177,7 +177,7 @@ public class YopEventConsumer {
                 long timeLong = Long.parseLong(time);
                 log.info("orderNo:{}",orderNo);
                 UserGrant userGrant = userGrantMapper.selectById(Integer.parseInt(orderNo));
-                if (userGrant != null && userGrant.getBuytime().getTime() == timeLong) {
+                if (userGrant != null && userGrant.getBuytime()!=null && userGrant.getBuytime().getTime() == timeLong) {
                     if (userGrant.getType() == 2) {
                         userGrant.setType(5);
                         userGrant.setPaytype(6);
