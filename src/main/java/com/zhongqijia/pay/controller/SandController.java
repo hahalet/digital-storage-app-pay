@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -73,6 +75,7 @@ public class SandController {
     @PostMapping(value = "/payCallback")
     public String payCallback(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         Map<String, String[]> parameterMap = req.getParameterMap();
+
         log.info("获取到sand payCallback response为{}", JSON.toJSONString(parameterMap));
         if (parameterMap != null && !parameterMap.isEmpty()) {
             String data = req.getParameter("data");
@@ -89,7 +92,7 @@ public class SandController {
                 C2BSandPayCallBack c2BSandPayCallBack = JSONObject.parseObject(data, C2BSandPayCallBack.class);
                 try{
                     C2BLogSandPayCallBack c2BLogSandPayCallBack = c2BSandPayCallBack.getBody();
-                    c2BLogSandPayCallBack.setResponse(data);
+                    c2BLogSandPayCallBack.setResponse(saveOperationRecord(req));
                     c2BLogSandPayCallBack.setCreateTime(DateUtils.getCurrentTimeStamp());
                     logSandPayCallBackMapper.insert(c2BLogSandPayCallBack);
                 }catch(Exception e){
@@ -100,6 +103,18 @@ public class SandController {
             return "SUCCESS";
         }
         return null;
+    }
+
+    private String saveOperationRecord(HttpServletRequest req){
+        //从 request 请求中 提取所有的form-data 参数,将参数转换成json 类型参数
+        Enumeration<String> parameterNames = req.getParameterNames();
+        String parm=null;
+        Map<String,String> parmMap = new HashMap<>();
+        while(parameterNames.hasMoreElements()){
+            parm=parameterNames.nextElement();
+            parmMap.put(parm, req.getParameter(parm));
+        }
+        return JSON.toJSONString(parmMap);
     }
 
     /**
@@ -151,7 +166,7 @@ public class SandController {
                         logSandPayC2cCallBack.setPayerMemId(c2CSandCallBack.getPayerInfo().getPayerMemID());
                         logSandPayC2cCallBack.setPayerAccName(c2CSandCallBack.getPayerInfo().getPayerAccName());
 
-                        logSandPayC2cCallBack.setResponse(data);
+                        logSandPayC2cCallBack.setResponse(saveOperationRecord(req));
                         logSandPayC2cCallBack.setCreateTime(DateUtils.getCurrentTimeStamp());
                         logSandPayC2cCallBackMapper.insert(logSandPayC2cCallBack);
                     }catch(Exception e){
