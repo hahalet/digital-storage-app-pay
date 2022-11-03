@@ -25,7 +25,7 @@ public class SandServiceImpl implements SandService {
     public JSONObject invoke(JSONObject param, SandMethodEnum sandMethodEnum) {
         JSONObject resp = CeasHttpUtil.doPost(param, sandMethodEnum);
         String jsonResp = JSONObject.toJSONString(resp, true);
-        logger.info("响应报文：\n"+jsonResp);
+        //logger.info("响应报文：\n"+jsonResp);
         return resp;
     }
 
@@ -37,7 +37,7 @@ public class SandServiceImpl implements SandService {
             param.put("bizUserNo", userId.toString()); //会员编号
             JSONObject jsonObject = invoke(param, SandMethodEnum.CEAS_ELEC_MEMBER_INFO);
             String masterAccount = jsonObject.getString("masterAccount");
-            log.info("masterAccount:{}",masterAccount);
+            //log.info("masterAccount:{}",masterAccount);
             if(masterAccount!=null && masterAccount.length()>0){
                 return true;
             }
