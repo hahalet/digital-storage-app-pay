@@ -6,17 +6,17 @@ import com.zhongqijia.pay.bean.paysand.C2BLogSandPayCallBack;
 import com.zhongqijia.pay.bean.paysand.C2BSandPayCallBack;
 import com.zhongqijia.pay.bean.paysand.C2CSandCallBack;
 import com.zhongqijia.pay.bean.paysand.LogSandPayC2cCallBack;
+import com.zhongqijia.pay.common.enums.SandMethodEnum;
 import com.zhongqijia.pay.config.BusConfig;
 import com.zhongqijia.pay.event.AppEventSender;
 import com.zhongqijia.pay.mapper.LogSandPayC2cCallBackMapper;
 import com.zhongqijia.pay.mapper.LogSandPayCallBackMapper;
+import com.zhongqijia.pay.service.SandService;
 import com.zhongqijia.pay.utils.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -46,6 +46,8 @@ public class SandController {
     @Autowired
     private LogSandPayC2cCallBackMapper logSandPayC2cCallBackMapper;
 
+    @Autowired
+    private SandService sandService;
     /**
      * 功能描述: 钱包回调地址
      *
@@ -227,5 +229,10 @@ public class SandController {
             }*/
         }
         return null;
+    }
+
+    @GetMapping(value = "/getWalletInfo")
+    public Boolean getWalletInfo(@RequestParam Integer userId) throws Exception {
+        return sandService.walletIsOpen(userId);
     }
 }
