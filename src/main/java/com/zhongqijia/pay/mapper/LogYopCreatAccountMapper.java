@@ -1,7 +1,7 @@
 package com.zhongqijia.pay.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zhongqijia.pay.bean.pay.LogYopCreatAccount;
+import com.zhongqijia.pay.bean.payyop.LogYopCreatAccount;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 

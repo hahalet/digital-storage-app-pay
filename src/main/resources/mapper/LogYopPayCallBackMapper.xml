@@ -3,7 +3,7 @@
 <mapper namespace="com.zhongqijia.pay.mapper.LogYopPayCallBackMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.zhongqijia.pay.bean.pay.LogYopPayCallBack">
+    <resultMap id="BaseResultMap" type="com.zhongqijia.pay.bean.payyop.LogYopPayCallBack">
         <id column="id" property="id" />
         <result column="channel" property="channel" />
         <result column="channel_order_id" property="channelOrderId" />

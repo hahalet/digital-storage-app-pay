@@ -24,6 +24,9 @@ public class RedisHelp {
     public static String CHECK_ORDER_STATUS_LOCK_KEY = "CHECK_ORDER_STATUS_LOCK_KEY:LOCK_ORDER";
     public static String CHECK_ORDER_STATUS_LOCK_VALUE = "check_order_status_locked";
 
+    public static String CHECK_ORDER_C2C_STATUS_LOCK_KEY = "CHECK_ORDER_C2C_STATUS_LOCK_KEY:LOCK_ORDER";
+    public static String CHECK_ORDER_C2C_STATUS_LOCK_VALUE = "check_order_c2c_status_locked";
+
     // IP请求
     public static final String IP_REQUEST_PREFIX = "app:ip:request:";
     // IP违规次数

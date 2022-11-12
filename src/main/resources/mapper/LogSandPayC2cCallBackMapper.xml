@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongqijia.pay.mapper.LogSandPayC2cCallBackMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zhongqijia.pay.bean.paysand.LogSandPayC2cCallBack">
+        <id column="id" property="id" />
+        <result column="amount" property="amount" />
+        <result column="fee_amt" property="feeAmt" />
+        <result column="user_fee_amt" property="userFeeAmt" />
+        <result column="mid" property="mid" />
+        <result column="order_no" property="orderNo" />
+        <result column="order_status" property="orderStatus" />
+        <result column="resp_code" property="respCode" />
+        <result column="resp_msg" property="respMsg" />
+        <result column="resp_time" property="respTime" />
+        <result column="sand_serial_no" property="sandSerialNo" />
+        <result column="trans_type" property="transType" />
+        <result column="payer_acc_no" property="payerAccNo" />
+        <result column="payer_mem_id" property="payerMemId" />
+        <result column="payer_acc_name" property="payerAccName" />
+        <result column="payee_mem_id" property="payeeMemId" />
+        <result column="payee_acc_no" property="payeeAccNo" />
+        <result column="payee_acc_name" property="payeeAccName" />
+        <result column="master_account" property="masterAccount" />
+        <result column="response" property="response" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, amount, fee_amt, user_fee_amt, mid, order_no, order_status, resp_code, resp_msg, resp_time, sand_serial_no, trans_type, payer_acc_no, payer_mem_id, payer_acc_name, payee_mem_id, payee_acc_no, payee_acc_name, master_account, response, create_time
+    </sql>
+
+</mapper>
