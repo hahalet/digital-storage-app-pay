@@ -37,7 +37,7 @@ public class SandServiceImpl implements SandService {
             param.put("bizUserNo", userId.toString()); //会员编号
             JSONObject jsonObject = invoke(param, SandMethodEnum.CEAS_ELEC_MEMBER_INFO);
             String masterAccount = jsonObject.getString("masterAccount");
-            //log.info("masterAccount:{}",masterAccount);
+            log.info("masterAccount:{}",masterAccount);
             if(masterAccount!=null && masterAccount.length()>0){
                 return true;
             }
