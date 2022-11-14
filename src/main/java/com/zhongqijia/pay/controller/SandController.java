@@ -232,7 +232,7 @@ public class SandController {
     }
 
     @GetMapping(value = "/getWalletInfo")
-    public Boolean getWalletInfo(@RequestParam Integer userId) throws Exception {
+    public JSONObject getWalletInfo(@RequestParam Integer userId) throws Exception {
         return sandService.walletIsOpen(userId);
     }
 }
