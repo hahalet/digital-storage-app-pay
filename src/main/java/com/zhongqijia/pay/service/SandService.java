@@ -16,5 +16,5 @@ public interface SandService {
      */
     JSONObject invoke(JSONObject param, SandMethodEnum sandMethodEnum);
 
-    boolean walletIsOpen(Integer userId);
+    JSONObject walletIsOpen(Integer userId);
 }

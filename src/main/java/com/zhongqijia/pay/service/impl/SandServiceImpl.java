@@ -30,20 +30,24 @@ public class SandServiceImpl implements SandService {
     }
 
     @Override
-    public boolean walletIsOpen(Integer userId){
+    public JSONObject walletIsOpen(Integer userId){
+        JSONObject jsonObjectReturn = new JSONObject();
         try{
             JSONObject param = new JSONObject();
             param.put("customerOrderNo", SandBase.getCustomerOrderNo()); //商户订单号
             param.put("bizUserNo", userId.toString()); //会员编号
             JSONObject jsonObject = invoke(param, SandMethodEnum.CEAS_ELEC_MEMBER_INFO);
             String masterAccount = jsonObject.getString("masterAccount");
-            //log.info("masterAccount:{}",masterAccount);
+            String faceStatus = jsonObject.getString("faceStatus");
             if(masterAccount!=null && masterAccount.length()>0){
-                return true;
+                jsonObjectReturn.put("isOpened",true);
+                jsonObjectReturn.put("faceStatus",faceStatus);
+            }else{
+                jsonObjectReturn.put("isOpened",false);
             }
         }catch (Exception e){
 
         }
-        return false;
+        return jsonObjectReturn;
     }
 }
