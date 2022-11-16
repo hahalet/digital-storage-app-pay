@@ -48,26 +48,27 @@ public class SandEventConsumer {
 
     @RabbitListener(queues = BusConfig.SAND_PAY_CALLBACK_QUEUE)
     public void payCallback(JSONObject message) {
-        C2BSandPayCallBack c2BSandPayCallBack = JSONObject.parseObject(message.toJSONString(), C2BSandPayCallBack.class);
-        String orderNo = c2BSandPayCallBack.getBody().getTradeNo();
+        String orderNo = (String)message.get("orderNo");
         if (orderNo == null || orderNo.length() == 0) {
             return;
         }
         boolean firstOrder = orderNo.startsWith(TiChainPayUtil.FIRST_ORDER);
-        if (firstOrder && c2BSandPayCallBack.getHead().getRespCode().equals("000000") &&
-                c2BSandPayCallBack.getHead().getRespMsg().equals("成功")) {
+        if (firstOrder) {
             YopEventConsumer.payCheckFirst(redisUtil, orderNo, myOrderMapper, collectionMapper,
                     hideRecordMapper, blindboxMapper, issueMapper,
-                    signupMapper, myboxMapper, userGrantMapper);
+                    signupMapper, myboxMapper);
         }
     }
 
     @RabbitListener(queues = BusConfig.SAND_PAY_CALLBACK_C2C_QUEUE)
     public void payCallbackC2C(JSONObject message) {
-        C2CSandCallBack c2CSandCallBack = JSONObject.parseObject(message.toJSONString(), C2CSandCallBack.class);
-        String orderNo = c2CSandCallBack.getOrderNo();
-        YopEventConsumer.payCheckSecond(redisUtil, orderNo, myOrderMapper, collectionMapper,
-                hideRecordMapper, blindboxMapper, issueMapper,
-                signupMapper, myboxMapper, userGrantMapper);
+        String orderNo = (String)message.get("orderNo");
+        if (orderNo == null || orderNo.length() == 0) {
+            return;
+        }
+        boolean secondOrder = orderNo.startsWith(TiChainPayUtil.SECOND_ORDER);
+        if(secondOrder){
+            YopEventConsumer.payCheckSecond(redisUtil, orderNo, userGrantMapper);
+        }
     }
 }

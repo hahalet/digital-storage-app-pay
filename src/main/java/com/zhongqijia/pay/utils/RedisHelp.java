@@ -33,6 +33,7 @@ public class RedisHelp {
     public static final String IP_VIOLATION_TIMES_PREFIX = "app:ip:violation:times:";
     // IP小黑屋判断
     public static final String IP_BLACK_EXIST_PREFIX = "app:ip:black:exist:";
+    public static String SAND_PAY_ORDER_KEY = "SAND_PAY_ORDER_KEY:";
 
     /**
      * 获取缓存

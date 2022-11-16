@@ -68,7 +68,7 @@ public class YopEventConsumer {
         if (firstOrder && logYopPayCallBack.getStatus().equals(TiChainPayUtil.SUCCESS)) {
             payCheckFirst(redisUtil, orderNo, myOrderMapper, collectionMapper,
                     hideRecordMapper, blindboxMapper, issueMapper,
-                    signupMapper, myboxMapper, userGrantMapper);
+                    signupMapper, myboxMapper);
         }
     }
 
@@ -83,11 +83,10 @@ public class YopEventConsumer {
      * @param issueMapper
      * @param signupMapper
      * @param myboxMapper
-     * @param userGrantMapper
      */
     public static void payCheckFirst(RedisUtil redisUtil, String orderNo, MyOrderMapper myOrderMapper, CollectionMapper collectionMapper,
                                      HideRecordMapper hideRecordMapper, BlindboxMapper blindboxMapper, IssueMapper issueMapper,
-                                     SignupMapper signupMapper, MyboxMapper myboxMapper, UserGrantMapper userGrantMapper) {
+                                     SignupMapper signupMapper, MyboxMapper myboxMapper) {
         //锁一分钟,检查订单状态不允许回调修改订单
         redisUtil.getKey(RedisHelp.CHECK_ORDER_STATUS_LOCK_KEY, RedisHelp.CHECK_ORDER_STATUS_LOCK_VALUE);
         try {
@@ -179,18 +178,9 @@ public class YopEventConsumer {
      * 二级支付回调处理
      * @param redisUtil
      * @param orderNo
-     * @param myOrderMapper
-     * @param collectionMapper
-     * @param hideRecordMapper
-     * @param blindboxMapper
-     * @param issueMapper
-     * @param signupMapper
-     * @param myboxMapper
      * @param userGrantMapper
      */
-    public static void payCheckSecond(RedisUtil redisUtil, String orderNo, MyOrderMapper myOrderMapper, CollectionMapper collectionMapper,
-                                     HideRecordMapper hideRecordMapper, BlindboxMapper blindboxMapper, IssueMapper issueMapper,
-                                     SignupMapper signupMapper, MyboxMapper myboxMapper, UserGrantMapper userGrantMapper) {
+    public static void payCheckSecond(RedisUtil redisUtil, String orderNo,UserGrantMapper userGrantMapper) {
         //锁一分钟,检查订单状态不允许回调修改订单
         redisUtil.getKey(RedisHelp.CHECK_ORDER_C2C_STATUS_LOCK_KEY, RedisHelp.CHECK_ORDER_C2C_STATUS_LOCK_VALUE);
         try {

@@ -17,4 +17,6 @@ public interface SandService {
     JSONObject invoke(JSONObject param, SandMethodEnum sandMethodEnum);
 
     JSONObject walletIsOpen(Integer userId);
+
+    JSONObject getPayInfo(String oriCustomerOrderNo);
 }
