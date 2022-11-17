@@ -22,6 +22,8 @@ public enum SandC2CTransCode {
         SUCCEED_CODE.add(成功.code);
         SUCCEED_CODE.add(收款中.code);
         SUCCEED_CODE.add(已收款.code);
+        SUCCEED_CODE.add(退回中.code);
+        SUCCEED_CODE.add(已退回.code);
     }
     /***交易-end***/
 
