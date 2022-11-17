@@ -83,9 +83,9 @@ public class SandServiceImpl implements SandService {
             String oriResponseDesc = jsonObject.getString("oriResponseDesc");
             String orirOderStatus = jsonObject.getString("orirOderStatus");
             String oriCustomerOrderNo = jsonObject.getString("oriCustomerOrderNo");
-            if(oriResponseCode.equals("00000") &&
-                    oriResponseDesc.equals(SandC2CTransCode.成功.getDesc()) &&
-                    orirOderStatus.equals(SandC2CTransCode.成功.getCode())){
+            if(oriResponseCode!=null && oriResponseCode.equals("00000") &&
+                    oriResponseDesc!=null && oriResponseDesc.equals(SandC2CTransCode.成功.getDesc()) &&
+                    orirOderStatus!=null && orirOderStatus.equals(SandC2CTransCode.成功.getCode())){
                 JSONObject json = new JSONObject();
                 json.put("orderNo",oriCustomerOrderNo);
                 appEventSender.send(BusConfig.SAND_PAY_CALLBACK_C2C_ROUTING_KEY, json);
@@ -97,8 +97,40 @@ public class SandServiceImpl implements SandService {
                 jsonObjectReturn.put("isPayed",false);
             }
         }catch (Exception e){
-
+            log.info("getPayInfo error:{}",e.getMessage());
         }
         return jsonObjectReturn;
     }
+
+    public JSONObject invokeC2B(JSONObject param, SandMethodEnum sandMethodEnum) {
+        JSONObject resp = CeasHttpUtil.doPost(param, sandMethodEnum);
+        String jsonResp = JSONObject.toJSONString(resp, true);
+        //logger.info("响应报文：\n"+jsonResp);
+        return resp;
+    }
+
+    public static void main(String[] args){
+        String jsonString = "{\"responseDesc\":\"订单信息不存在\",\"responseTime\":\"20221117105027\",\"mid\":\"6888801117499\",\"sandSerialNo\":\"CEAS2022111710502746221429\",\"responseStatus\":\"01\",\"version\":\"1.0.0\",\"customerOrderNo\":\"2022111710502795\",\"responseCode\":\"05005\"}";
+        JSONObject jsonObject = JSONObject.parseObject(jsonString);
+
+        String oriResponseCode = jsonObject.getString("oriResponseCode");
+        String oriResponseDesc = jsonObject.getString("oriResponseDesc");
+        String orirOderStatus = jsonObject.getString("orirOderStatus");
+        String oriCustomerOrderNo = jsonObject.getString("oriCustomerOrderNo");
+        JSONObject jsonObjectReturn = new JSONObject();
+        if(oriResponseCode!=null && oriResponseCode.equals("00000") &&
+                oriResponseDesc!=null && oriResponseDesc.equals(SandC2CTransCode.成功.getDesc()) &&
+                orirOderStatus!=null && orirOderStatus.equals(SandC2CTransCode.成功.getCode())){
+            JSONObject json = new JSONObject();
+            json.put("orderNo",oriCustomerOrderNo);
+        }
+
+        if(oriCustomerOrderNo!=null){
+            jsonObjectReturn.put("isPayed",true);
+        }else{
+            jsonObjectReturn.put("isPayed",false);
+        }
+        log.info("test:{}",jsonObjectReturn);
+    }
+
 }
