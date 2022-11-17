@@ -1,6 +1,6 @@
 package com.zhongqijia.pay.common.enums;
 
-import java.util.Arrays;
+import java.util.*;
 
 
 public enum SandC2CTransCode {
@@ -16,6 +16,13 @@ public enum SandC2CTransCode {
     已退回("08", "已退回"),
     ;
 
+
+    public static List<String> SUCCEED_CODE = new ArrayList<>();
+    static{
+        SUCCEED_CODE.add(成功.code);
+        SUCCEED_CODE.add(收款中.code);
+        SUCCEED_CODE.add(已收款.code);
+    }
     /***交易-end***/
 
     SandC2CTransCode(String typeCode, String codeDesc) {

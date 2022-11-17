@@ -126,7 +126,11 @@ public class SandServiceImpl implements SandService {
         }
 
         if(oriCustomerOrderNo!=null){
-            jsonObjectReturn.put("isPayed",true);
+            if(orirOderStatus!=null && SandC2CTransCode.SUCCEED_CODE.contains(orirOderStatus)){
+                jsonObjectReturn.put("isPayed",true);
+            }else{
+                jsonObjectReturn.put("isPayed",false);
+            }
         }else{
             jsonObjectReturn.put("isPayed",false);
         }
