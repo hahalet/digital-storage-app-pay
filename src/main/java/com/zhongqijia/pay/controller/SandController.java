@@ -6,7 +6,7 @@ import com.zhongqijia.pay.bean.paysand.C2BLogSandPayCallBack;
 import com.zhongqijia.pay.bean.paysand.C2BSandPayCallBack;
 import com.zhongqijia.pay.bean.paysand.C2CSandCallBack;
 import com.zhongqijia.pay.bean.paysand.LogSandPayC2cCallBack;
-import com.zhongqijia.pay.common.enums.SandMethodEnum;
+import com.zhongqijia.pay.common.enums.SandC2CTransCode;
 import com.zhongqijia.pay.config.BusConfig;
 import com.zhongqijia.pay.event.AppEventSender;
 import com.zhongqijia.pay.mapper.LogSandPayC2cCallBackMapper;
@@ -147,7 +147,14 @@ public class SandController {
                 }catch(Exception e){
                     log.info("保存sand payCallback response失败:{}", e.getMessage());
                 }
-                appEventSender.send(BusConfig.SAND_PAY_CALLBACK_ROUTING_KEY, JSONObject.parseObject(data));
+                if(c2BSandPayCallBack.getHead().getRespCode().equals("000000") &&
+                        c2BSandPayCallBack.getHead().getRespMsg().equals("成功") &&
+                        c2BSandPayCallBack.getBody().getOrderStatus().equals("1")){
+                    String orderNo = c2BSandPayCallBack.getBody().getTradeNo();
+                    JSONObject json = new JSONObject();
+                    json.put("orderNo",orderNo);
+                    appEventSender.send(BusConfig.SAND_PAY_CALLBACK_ROUTING_KEY, json);
+                }
             }
             return "SUCCESS";
         }
@@ -204,9 +211,8 @@ public class SandController {
                     } else {
                         log.error("接收异步通知数据异常！！！");
                     }*/
-
+                    C2CSandCallBack c2CSandCallBack = JSONObject.parseObject(data, C2CSandCallBack.class);
                     try{
-                        C2CSandCallBack c2CSandCallBack = JSONObject.parseObject(data, C2CSandCallBack.class);
                         LogSandPayC2cCallBack logSandPayC2cCallBack = JSONObject.parseObject(data, LogSandPayC2cCallBack.class);
                         logSandPayC2cCallBack.setPayeeAccNo(c2CSandCallBack.getPayeeInfo().getPayeeAccNo());
                         logSandPayC2cCallBack.setPayeeMemId(c2CSandCallBack.getPayeeInfo().getPayeeMemID());
@@ -221,8 +227,16 @@ public class SandController {
                     }catch(Exception e){
                         log.info("保存sand payCallback response失败:{}", e.getMessage());
                     }
-                    appEventSender.send(BusConfig.SAND_PAY_CALLBACK_C2C_ROUTING_KEY, dataJson);
-                    return "respCode=000000";
+
+                    if(c2CSandCallBack.getRespCode().equals("00000") &&
+                            c2CSandCallBack.getRespMsg().equals("成功") &&
+                            c2CSandCallBack.getOrderStatus().equals(SandC2CTransCode.成功.getCode())){
+                        String orderNo = c2CSandCallBack.getOrderNo();
+                        JSONObject json = new JSONObject();
+                        json.put("orderNo",orderNo);
+                        appEventSender.send(BusConfig.SAND_PAY_CALLBACK_C2C_ROUTING_KEY, json);
+                    }
+                    return "respCode=00000";
                 }
             /*} catch (Exception e){
                 log.error(e.getMessage());
@@ -234,5 +248,10 @@ public class SandController {
     @GetMapping(value = "/getWalletInfo")
     public JSONObject getWalletInfo(@RequestParam Integer userId) throws Exception {
         return sandService.walletIsOpen(userId);
+    }
+
+    @GetMapping(value = "/getPayInfo")
+    public JSONObject getPayInfo(@RequestParam String orderNo) throws Exception {
+        return sandService.getPayInfo(orderNo);
     }
 }
