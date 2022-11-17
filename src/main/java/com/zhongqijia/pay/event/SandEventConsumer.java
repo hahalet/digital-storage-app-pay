@@ -62,9 +62,6 @@ public class SandEventConsumer {
 
     @RabbitListener(queues = BusConfig.SAND_PAY_CALLBACK_C2C_QUEUE)
     public void payCallbackC2C(JSONObject message) {
-        if(1>0){
-            return;
-        }
         String orderNo = (String)message.get("orderNo");
         if (orderNo == null || orderNo.length() == 0) {
             return;
