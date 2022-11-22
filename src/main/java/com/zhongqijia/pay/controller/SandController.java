@@ -228,14 +228,14 @@ public class SandController {
                         log.info("保存sand payCallback response失败:{}", e.getMessage());
                     }
 
-                    /*if(c2CSandCallBack.getRespCode().equals("00000") &&
+                    if(c2CSandCallBack.getRespCode().equals("00000") &&
                             c2CSandCallBack.getRespMsg().equals("成功") &&
                             c2CSandCallBack.getOrderStatus().equals(SandC2CTransCode.成功.getCode())){
                         String orderNo = c2CSandCallBack.getOrderNo();
                         JSONObject json = new JSONObject();
                         json.put("orderNo",orderNo);
                         appEventSender.send(BusConfig.SAND_PAY_CALLBACK_C2C_ROUTING_KEY, json);
-                    }*/
+                    }
                     return "respCode=00000";
                 }
             /*} catch (Exception e){
