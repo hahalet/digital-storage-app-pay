@@ -24,8 +24,8 @@ public class PayTongTongUtils {
         request2.setContent(JSON.toJSONString(req)); // 业务参数的json字段
         request2.setPassword("123"); //
 
-        request2.setPrivateKeyPath(path+"\\tongtong\\cert.pfx");
-        request2.setPublicKeyPath(path+"\\tongtong\\public.cer");
+        request2.setPrivateKeyPath(path+"/tongtong/cert.pfx");
+        request2.setPublicKeyPath(path+"/tongtong/public.cer");
         request2.setUrl("https://entrance.sumpay.cn/gateway.htm");
         if(domain!=null){
             request2.setDomain(domain);
