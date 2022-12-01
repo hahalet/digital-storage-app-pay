@@ -63,4 +63,10 @@ img:
   #ImgEnum枚举类中url
   url: http://120.77.148.40/taurus
 
-
+tongtongPay:
+  #获取用户开户信息
+  domain: http://120.77.148.40
+  walletLoginNotifyUrl: http://120.77.148.40/aries2/tongtong/walletCallback
+  walletLoginReturnUrl: http://120.77.148.40/h5/#/
+  payNotifyUrl: http://120.77.148.40/aries2/tongtong/payCallback
+  payReturnUrl: http://120.77.148.40/h5/#/pages/good/detail/paystatus?paytype=3
