@@ -14,18 +14,21 @@ import fosun.sumpay.merchant.integration.core.request.outer.c2c.QueryC2CH5UrlReq
 import fosun.sumpay.merchant.integration.core.request.outer.c2c.QueryUserStatusRequest;
 import fosun.sumpay.merchant.integration.core.service.SumpayService;
 import fosun.sumpay.merchant.integration.core.service.SumpayServiceImpl;
+import org.springframework.beans.factory.annotation.Value;
 
 public class PayTongTongUtils {
+    @Value("${tongtongPay.tongtongPayRoot}")
+    private static String tongtongPayRoot;
+
     public static Map<String, String> post(MerchantBaseRequest req, String domain){
-        String path = PayTongTongUtils.class.getClassLoader().getResource("").getPath();
-        System.out.println(JSON.toJSONString(path));
+        Log.info("tongtongPayRoot:{}",tongtongPayRoot);
         Request request2 = new Request();
         request2.setCharset("UTF-8");// 取jsp的请求编码
         request2.setContent(JSON.toJSONString(req)); // 业务参数的json字段
         request2.setPassword("123"); //
 
-        request2.setPrivateKeyPath(path+"/tongtong/cert.pfx");
-        request2.setPublicKeyPath(path+"/tongtong/public.cer");
+        request2.setPrivateKeyPath(tongtongPayRoot+"cert.pfx");
+        request2.setPublicKeyPath(tongtongPayRoot+"public.cer");
         request2.setUrl("https://entrance.sumpay.cn/gateway.htm");
         if(domain!=null){
             request2.setDomain(domain);
