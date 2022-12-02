@@ -24,7 +24,7 @@ public class PayTongTongServiceImpl implements PayTongTongService {
     @Value("${tongtongPay.domain}")
     private String domain;
     @Value("${tongtongPay.tongtongPayRoot}")
-    private static String tongtongPayRoot;
+    private String tongtongPayRoot;
     @Autowired(required = false)
     UsersMapper userMapper;
     @Override
