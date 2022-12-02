@@ -7,4 +7,6 @@ public interface PayTongTongService {
     String walletLoginByUsers(Integer userId);
 
     JSONObject walletIsOpen(Integer userId);
+
+    String payOrderFirst(Integer userId, Integer orderId,String payerClientIp);
 }

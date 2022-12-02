@@ -34,6 +34,7 @@ public class RedisHelp {
     // IP小黑屋判断
     public static final String IP_BLACK_EXIST_PREFIX = "app:ip:black:exist:";
     public static String SAND_PAY_ORDER_KEY = "SAND_PAY_ORDER_KEY:";
+    public static String TT_PAY_ORDER_KEY = "TT_PAY_ORDER_KEY:";
 
     /**
      * 获取缓存

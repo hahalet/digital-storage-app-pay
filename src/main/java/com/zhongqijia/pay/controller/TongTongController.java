@@ -2,14 +2,8 @@ package com.zhongqijia.pay.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.zhongqijia.pay.bean.payyop.LogYopCreatAccount;
-import com.zhongqijia.pay.bean.payyop.LogYopPayCallBack;
-import com.zhongqijia.pay.config.BusConfig;
 import com.zhongqijia.pay.event.AppEventSender;
-import com.zhongqijia.pay.mapper.LogYopCreatAccountMapper;
-import com.zhongqijia.pay.mapper.LogYopPayCallBackMapper;
 import com.zhongqijia.pay.service.PayTongTongService;
-import com.zhongqijia.pay.utils.DateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -57,9 +51,15 @@ public class TongTongController {
      * @auther: xy
      */
     @PostMapping(value = "/payCallback")
-    public String payCallback(String response) {
-
+    public String payCallback(HttpServletRequest req, HttpServletResponse resp) {
+        Map<String, String[]> parameterMap = req.getParameterMap();
+        log.info("获取到payCallback response为{}", JSON.toJSONString(parameterMap));
         return "000000";
+    }
+
+    @PostMapping(value = "/payOrderFirst")
+    public String payOrderFirst(Integer userId,Integer orderId,String payerClientIp) {
+        return payTongTongService.payOrderFirst(userId,orderId,payerClientIp);
     }
 
     @GetMapping(value = "/walletLoginByUsers")
