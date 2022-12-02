@@ -65,6 +65,7 @@ img:
 
 tongtongPay:
   #获取用户开户信息
+  tongtongPayRoot: /data/apps/pay/target/tongtong/
   domain: http://120.77.148.40
   walletLoginNotifyUrl: http://120.77.148.40/aries2/tongtong/walletCallback
   walletLoginReturnUrl: http://120.77.148.40/h5/#/

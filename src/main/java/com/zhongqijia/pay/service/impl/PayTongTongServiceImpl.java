@@ -23,18 +23,19 @@ public class PayTongTongServiceImpl implements PayTongTongService {
     private String walletLoginReturnUrl;
     @Value("${tongtongPay.domain}")
     private String domain;
-
+    @Value("${tongtongPay.tongtongPayRoot}")
+    private static String tongtongPayRoot;
     @Autowired(required = false)
     UsersMapper userMapper;
     @Override
     public String walletLoginByUsers(Integer userId) {
         Users users = userMapper.selectById(userId);
-        return PayTongTongUtils.loginWallet(users,walletLoginNotifyUrl,domain);
+        return PayTongTongUtils.loginWallet(users,walletLoginNotifyUrl,domain,tongtongPayRoot);
     }
 
     @Override
     public boolean getWalletInfo(Integer userId) {
         Users users = userMapper.selectById(userId);
-        return PayTongTongUtils.getWalletInfo(users);
+        return PayTongTongUtils.getWalletInfo(users,tongtongPayRoot);
     }
 }

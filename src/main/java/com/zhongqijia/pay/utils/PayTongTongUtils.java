@@ -14,13 +14,11 @@ import fosun.sumpay.merchant.integration.core.request.outer.c2c.QueryC2CH5UrlReq
 import fosun.sumpay.merchant.integration.core.request.outer.c2c.QueryUserStatusRequest;
 import fosun.sumpay.merchant.integration.core.service.SumpayService;
 import fosun.sumpay.merchant.integration.core.service.SumpayServiceImpl;
-import org.springframework.beans.factory.annotation.Value;
 
 public class PayTongTongUtils {
-    @Value("${tongtongPay.tongtongPayRoot}")
-    private static String tongtongPayRoot;
 
-    public static Map<String, String> post(MerchantBaseRequest req, String domain){
+
+    public static Map<String, String> post(MerchantBaseRequest req, String domain, String tongtongPayRoot){
         Log.info("tongtongPayRoot:{}",tongtongPayRoot);
         Request request2 = new Request();
         request2.setCharset("UTF-8");// 取jsp的请求编码
@@ -41,7 +39,7 @@ public class PayTongTongUtils {
         return ss.execute(request2);
     }
 
-    public static String loginWallet(Users users, String notifyUrl, String domain){
+    public static String loginWallet(Users users, String notifyUrl, String domain, String tongtongPayRoot){
         QueryC2CH5UrlRequest req =new QueryC2CH5UrlRequest();
         req.setFormat("JSON");
         req.setTerminal_type("wap");
@@ -58,7 +56,7 @@ public class PayTongTongUtils {
         req.setRealname(users.getRealname());
         //身份证
         req.setId_no(users.getRealno());
-        Map<String, String> res = post(req, domain);
+        Map<String, String> res = post(req, domain,tongtongPayRoot);
         Log.info(JSON.toJSONString(res));
         if(res!=null && res.get("resp_code").equals("000000")){
             return JSON.toJSONString(res);
@@ -67,7 +65,7 @@ public class PayTongTongUtils {
         }
     }
 
-    public static Boolean getWalletInfo(Users users){
+    public static Boolean getWalletInfo(Users users, String tongtongPayRoot){
         QueryUserStatusRequest req =new QueryUserStatusRequest();
         req.setFormat("JSON");
         req.setTerminal_type("wap");
@@ -78,7 +76,7 @@ public class PayTongTongUtils {
         req.setUser_id(users.getUserId().toString());
         req.setPartner_id("200102239651");
         req.setPage_index("1");
-        Map<String, String> res = post(req,  null);
+        Map<String, String> res = post(req,  null, tongtongPayRoot);
         Log.info(JSON.toJSONString(res));
         if(res!=null && res.get("resp_code").equals("000000")){
             return true;
@@ -90,6 +88,6 @@ public class PayTongTongUtils {
     public static void main(String[] args){
         Users users = new Users();
         users.setUserId(1);
-        getWalletInfo(users);
+        getWalletInfo(users, "/data/apps/pay/target/tongtong/");
     }
 }

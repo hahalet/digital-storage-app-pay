@@ -66,6 +66,7 @@ img:
 
 tongtongPay:
   #获取用户开户信息
+  tongtongPayRoot: /data/apps/pay/target/tongtong/
   domain: https://szzqj.com.cn
   walletLoginNotifyUrl: https://szzqj.com.cn/aries2/tongtong/walletCallback
   walletLoginReturnUrl: https://szzqj.com.cn/h5/#/
