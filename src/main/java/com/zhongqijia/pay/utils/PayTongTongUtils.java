@@ -98,7 +98,7 @@ public class PayTongTongUtils {
                              MyOrder myOrder, Collection collection,
                              String return_url, String notify_url, String domain, String payerClientIp, RedisUtil redisUtil){
         String jsonString = null;
-        //try{
+        try{
             Map<String, String> resUserInfo = PayTongTongUtils.getWalletInfo(users,tongtongPayRoot);
             String user_id = null;
             if(resUserInfo!=null && resUserInfo.get("resp_code").equals("000000")){
@@ -177,9 +177,9 @@ public class PayTongTongUtils {
             //{"resp_code":"000000","redirect_url":"https://pay.sumpay.cn/cashier-fed/pages/wap/index.html#/?key=dc207e68-b08f-4316-ae05-f105887af7d8&pre=0"}
             //JSONObject jsonObject = JSONObject.parseObject(JSON.toJSONString(res));
             jsonString = JSON.toJSONString(res);
-        /*}catch (Exception e){
+        }catch (Exception e){
             log.info("getWalletInfo error:{}",e.getMessage());
-        }*/
+        }
         return jsonString;
     }
 
