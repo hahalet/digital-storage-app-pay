@@ -12,10 +12,7 @@ import com.zhongqijia.pay.service.PayTongTongService;
 import com.zhongqijia.pay.utils.DateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -68,5 +65,10 @@ public class TongTongController {
     @GetMapping(value = "/walletLoginByUsers")
     public String walletLoginByUsers(Integer userId){
         return payTongTongService.walletLoginByUsers(userId);
+    }
+
+    @GetMapping(value = "/getWalletInfo")
+    public JSONObject getWalletInfo(@RequestParam Integer userId) throws Exception {
+        return payTongTongService.walletIsOpen(userId);
     }
 }

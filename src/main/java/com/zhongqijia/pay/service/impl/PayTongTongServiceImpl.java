@@ -1,5 +1,6 @@
 package com.zhongqijia.pay.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zhongqijia.pay.bean.TestBean;
 import com.zhongqijia.pay.bean.Users;
@@ -34,8 +35,10 @@ public class PayTongTongServiceImpl implements PayTongTongService {
     }
 
     @Override
-    public boolean getWalletInfo(Integer userId) {
+    public JSONObject walletIsOpen(Integer userId) {
         Users users = userMapper.selectById(userId);
-        return PayTongTongUtils.getWalletInfo(users,tongtongPayRoot);
+        JSONObject jsonObjectReturn = new JSONObject();
+        jsonObjectReturn.put("isOpened",PayTongTongUtils.getWalletInfo(users,tongtongPayRoot));
+        return jsonObjectReturn;
     }
 }
