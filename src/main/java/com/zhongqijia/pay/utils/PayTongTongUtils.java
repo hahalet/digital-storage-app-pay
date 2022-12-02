@@ -14,12 +14,14 @@ import fosun.sumpay.merchant.integration.core.request.outer.c2c.QueryC2CH5UrlReq
 import fosun.sumpay.merchant.integration.core.request.outer.c2c.QueryUserStatusRequest;
 import fosun.sumpay.merchant.integration.core.service.SumpayService;
 import fosun.sumpay.merchant.integration.core.service.SumpayServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class PayTongTongUtils {
 
 
     public static Map<String, String> post(MerchantBaseRequest req, String domain, String tongtongPayRoot){
-        Log.info("tongtongPayRoot:{}",tongtongPayRoot);
+        log.info("tongtongPayRoot:{}",tongtongPayRoot);
         Request request2 = new Request();
         request2.setCharset("UTF-8");// 取jsp的请求编码
         request2.setContent(JSON.toJSONString(req)); // 业务参数的json字段
