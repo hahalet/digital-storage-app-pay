@@ -1,5 +1,6 @@
 package com.zhongqijia.pay.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zhongqijia.pay.bean.payyop.LogYopCreatAccount;
 import com.zhongqijia.pay.bean.payyop.LogYopPayCallBack;
@@ -15,6 +16,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 /**
  * @Author: LiaoSheng
@@ -40,8 +45,9 @@ public class TongTongController {
      * @auther: xy
      */
     @PostMapping(value = "/walletCallback")
-    public String walletCallback(String response) {
-        log.info("获取到tongtong walletCallback response为{}", response);
+    public String walletCallback(HttpServletRequest req, HttpServletResponse resp) {
+        Map<String, String[]> parameterMap = req.getParameterMap();
+        log.info("获取到walletCallback response为{}", JSON.toJSONString(parameterMap));
         return "000000";
     }
 
