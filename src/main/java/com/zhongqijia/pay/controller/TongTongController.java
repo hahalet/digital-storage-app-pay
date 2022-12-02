@@ -57,7 +57,7 @@ public class TongTongController {
         return "000000";
     }
 
-    @PostMapping(value = "/payOrderFirst")
+    @GetMapping(value = "/payOrderFirst")
     public String payOrderFirst(Integer userId,Integer orderId,String payerClientIp) {
         return payTongTongService.payOrderFirst(userId,orderId,payerClientIp);
     }
