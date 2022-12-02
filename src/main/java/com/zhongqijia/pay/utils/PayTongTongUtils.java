@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.esotericsoftware.minlog.Log;
 import com.zhongqijia.pay.bean.Users;
 import fosun.sumpay.merchant.integration.core.request.MerchantBaseRequest;
@@ -68,28 +70,37 @@ public class PayTongTongUtils {
     }
 
     public static Boolean getWalletInfo(Users users, String tongtongPayRoot){
-        QueryUserStatusRequest req =new QueryUserStatusRequest();
-        req.setFormat("JSON");
-        req.setTerminal_type("wap");
-        req.setService("cn.sumpay.scene.c2c.user.query.user.status");
-        req.setTimestamp(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
-        req.setVersion("1.0");
-        req.setApp_id("200102239651");
-        req.setUser_id(users.getUserId().toString());
-        req.setPartner_id("200102239651");
-        req.setPage_index("1");
-        Map<String, String> res = post(req,  null, tongtongPayRoot);
-        Log.info(JSON.toJSONString(res));
-        if(res!=null && res.get("resp_code").equals("000000")){
-            return true;
-        }else{
-            return false;
+        try{
+            QueryUserStatusRequest req =new QueryUserStatusRequest();
+            req.setFormat("JSON");
+            req.setTerminal_type("wap");
+            req.setService("cn.sumpay.scene.c2c.user.query.user.status");
+            req.setTimestamp(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
+            req.setVersion("1.0");
+            req.setApp_id("200102239651");
+            req.setOut_user_id(users.getUserId().toString());
+            req.setPartner_id("200102239651");
+            req.setPage_index("1");
+            Map<String, String> res = post(req,  null, tongtongPayRoot);
+            log.info(JSON.toJSONString(res));
+            if(res!=null && res.get("resp_code").equals("000000")){
+                String user_status_list = res.get("user_status_list");
+                JSONArray jsa = JSONObject.parseArray(user_status_list);
+                if(!jsa.isEmpty()){
+                    JSONObject js = (JSONObject)jsa.get(0);
+                    String user_status = js.getString("user_status");
+                    return user_status.equals("1");
+                }
+            }
+        }catch (Exception e){
+            log.info("getWalletInfo error:{}",e.getMessage());
         }
+        return false;
     }
 
     public static void main(String[] args){
         Users users = new Users();
-        users.setUserId(1);
-        getWalletInfo(users, "/data/apps/pay/target/tongtong/");
+        users.setUserId(119414);
+        getWalletInfo(users, "C:\\Users\\llg\\qyy\\server\\digital-storage-pay\\src\\main\\resources\\tongtong\\");
     }
 }
