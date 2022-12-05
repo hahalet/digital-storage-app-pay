@@ -86,8 +86,9 @@ public class PayTongTongServiceImpl implements PayTongTongService {
     @Override
     public String payOrderSecond(Integer grantId, String payerClientIp) {
         UserGrant userGrant = userGrantMapper.selectById(grantId);
+        Users user = userMapper.selectById(userGrant.getOppositeuser());
         Collection collection = collectionMapper.selectById(userGrant.getCollid());
-        return PayTongTongUtils.paySecond(userGrant,collection,payerClientIp,tongtongPayRoot,payReturnUrl,payNotifyUrl,domain,redisUtil);
+        return PayTongTongUtils.paySecond(user,userGrant,collection,payerClientIp,tongtongPayRoot,payReturnUrl,payNotifyUrl,domain,redisUtil,walletLoginNotifyUrl);
     }
 
     @Override

@@ -222,7 +222,7 @@ public class PayTongTongUtils {
                 null);
     }
 
-    public static String paySecond(UserGrant userGrant, Collection collection, String payerClientIp, String tongtongPayRoot, String return_url, String notify_url, String domain, RedisUtil redisUtil) {
+    public static String paySecond(Users buyUser,UserGrant userGrant, Collection collection, String payerClientIp, String tongtongPayRoot, String return_url, String notify_url, String domain, RedisUtil redisUtil, String walletLoginNotifyUrl) {
         String jsonString = null;
         try{
             Map<String, String> resUserInInfo = PayTongTongUtils.getWalletInfo(userGrant.getUserid(),tongtongPayRoot);
@@ -245,8 +245,11 @@ public class PayTongTongUtils {
                     user_id = js.getString("user_id");
                 }
             }
+            if(user_id==null){
+                return loginWallet(buyUser,walletLoginNotifyUrl,domain,tongtongPayRoot);
+            }
             log.info("user_in_id:{},user_id:{}",user_in_id,user_id);
-            if(user_in_id==null || user_id==null){
+            if(user_in_id==null){
                 return null;
             }
             String needNotify = "1";
