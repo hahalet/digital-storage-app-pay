@@ -9,4 +9,8 @@ public interface PayTongTongService {
     JSONObject walletIsOpen(Integer userId);
 
     String payOrderFirst(Integer userId, Integer orderId,String payerClientIp);
+
+    String payOrderSecond(Integer grantId, String payerClientIp);
+
+    JSONObject getPayInfo(String orderNo);
 }

@@ -8,6 +8,7 @@ import com.zhongqijia.pay.event.AppEventSender;
 import com.zhongqijia.pay.mapper.LogTongtongPayCallBackMapper;
 import com.zhongqijia.pay.service.PayTongTongService;
 import com.zhongqijia.pay.utils.DateUtils;
+import com.zhongqijia.pay.utils.PayHelp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -64,13 +65,16 @@ public class TongTongController {
         }catch(Exception e){
             log.info("payCallback error:{}",e.getMessage());
         }
-
         if(logTongtongPayCallBack.getResp_code().equals("000000") &&
                 logTongtongPayCallBack.getResp_msg().equals("success")){
             String orderNo = logTongtongPayCallBack.getOrder_no();
             JSONObject json = new JSONObject();
             json.put("orderNo",orderNo);
-            appEventSender.send(BusConfig.TT_PAY_CALLBACK_ROUTING_KEY, json);
+            if(orderNo.startsWith(PayHelp.FIRST_ORDER)){
+                appEventSender.send(BusConfig.TT_PAY_CALLBACK_ROUTING_KEY, json);
+            }else if(orderNo.startsWith(PayHelp.SECOND_ORDER)){
+                appEventSender.send(BusConfig.TT_PAY_CALLBACK_C2C_ROUTING_KEY, json);
+            }
         }
 
         return "000000";
@@ -81,6 +85,15 @@ public class TongTongController {
         return payTongTongService.payOrderFirst(userId, orderId, payerClientIp);
     }
 
+    @GetMapping(value = "/payOrderSecond")
+    public String payOrderSecond(Integer grantId, String payerClientIp) {
+        return payTongTongService.payOrderSecond(grantId, payerClientIp);
+    }
+
+    @GetMapping(value = "/getPayInfo")
+    public JSONObject getPayInfo(@RequestParam String orderNo) throws Exception {
+        return payTongTongService.getPayInfo(orderNo);
+    }
     @GetMapping(value = "/walletLoginByUsers")
     public String walletLoginByUsers(Integer userId) {
         return payTongTongService.walletLoginByUsers(userId);

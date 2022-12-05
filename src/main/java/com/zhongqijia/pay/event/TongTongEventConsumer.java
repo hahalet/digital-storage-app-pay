@@ -48,7 +48,7 @@ public class TongTongEventConsumer {
         }
     }
 
-/*    @RabbitListener(queues = BusConfig.SAND_PAY_CALLBACK_C2C_QUEUE)
+    @RabbitListener(queues = BusConfig.TT_PAY_CALLBACK_C2C_QUEUE)
     public void payCallbackC2C(JSONObject message) {
         String orderNo = (String)message.get("orderNo");
         if (orderNo == null || orderNo.length() == 0) {
@@ -58,5 +58,5 @@ public class TongTongEventConsumer {
         if(secondOrder){
             YopEventConsumer.payCheckSecond(redisUtil, orderNo, userGrantMapper);
         }
-    }*/
+    }
 }

@@ -2,19 +2,15 @@ package com.zhongqijia.pay.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zhongqijia.pay.bean.Collection;
-import com.zhongqijia.pay.bean.MyOrder;
-import com.zhongqijia.pay.bean.TestBean;
-import com.zhongqijia.pay.bean.Users;
+import com.zhongqijia.pay.bean.*;
 import com.zhongqijia.pay.common.util.RedisUtil;
-import com.zhongqijia.pay.mapper.CollectionMapper;
-import com.zhongqijia.pay.mapper.MyOrderMapper;
-import com.zhongqijia.pay.mapper.TestMapper;
-import com.zhongqijia.pay.mapper.UsersMapper;
+import com.zhongqijia.pay.config.BusConfig;
+import com.zhongqijia.pay.event.AppEventSender;
+import com.zhongqijia.pay.mapper.*;
 import com.zhongqijia.pay.service.PayTongTongService;
-import com.zhongqijia.pay.service.TestService;
 import com.zhongqijia.pay.utils.PayTongTongUtils;
+import com.zhongqijia.pay.utils.RedisHelp;
+import com.zhongqijia.pay.utils.SandBase;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,13 +35,16 @@ public class PayTongTongServiceImpl implements PayTongTongService {
     private String payReturnUrl;
     @Autowired
     private RedisUtil redisUtil;
-
+    @Autowired
+    private AppEventSender appEventSender;
     @Autowired(required = false)
     private UsersMapper userMapper;
     @Autowired(required = false)
     private MyOrderMapper myOrderMapper;
     @Autowired(required = false)
     private CollectionMapper collectionMapper;
+    @Autowired(required = false)
+    private UserGrantMapper userGrantMapper;
     @Override
     public String walletLoginByUsers(Integer userId) {
         Users users = userMapper.selectById(userId);
@@ -56,7 +55,7 @@ public class PayTongTongServiceImpl implements PayTongTongService {
     public JSONObject walletIsOpen(Integer userId) {
         Users users = userMapper.selectById(userId);
         JSONObject jsonObjectReturn = new JSONObject();
-        Map<String, String> res = PayTongTongUtils.getWalletInfo(users,tongtongPayRoot);
+        Map<String, String> res = PayTongTongUtils.getWalletInfo(users.getUserId(),tongtongPayRoot);
         boolean isOpened = false;
         try{
             if(res!=null && res.get("resp_code").equals("000000")){
@@ -80,7 +79,56 @@ public class PayTongTongServiceImpl implements PayTongTongService {
         Users users = userMapper.selectById(userId);
         MyOrder myOrder = myOrderMapper.selectById(orderId);
         Collection collection = collectionMapper.selectById(myOrder.getCollid());
-        return PayTongTongUtils.pay(users,tongtongPayRoot,myOrder,collection,
+        return PayTongTongUtils.payFirst(users,tongtongPayRoot,myOrder,collection,
                 payReturnUrl,payNotifyUrl,domain,payerClientIp,redisUtil);
+    }
+
+    @Override
+    public String payOrderSecond(Integer grantId, String payerClientIp) {
+        UserGrant userGrant = userGrantMapper.selectById(grantId);
+        Collection collection = collectionMapper.selectById(userGrant.getCollid());
+        return PayTongTongUtils.paySecond(userGrant,collection,payerClientIp,tongtongPayRoot,payReturnUrl,payNotifyUrl,domain,redisUtil);
+    }
+
+    @Override
+    public JSONObject getPayInfo(String orderNo) {
+        JSONObject jsonObjectReturn = new JSONObject();
+        try{
+            JSONObject param = new JSONObject();
+            param.put("customerOrderNo", SandBase.getCustomerOrderNo()); //商户订单号
+            if(orderNo.length()<=30){
+                Integer index = (Integer)redisUtil.get(RedisHelp.SAND_PAY_ORDER_KEY+orderNo);
+                if(index == null){
+                    jsonObjectReturn.put("isPayed",false);
+                    return jsonObjectReturn;
+                }
+                orderNo = orderNo+"_"+index;
+            }
+            param.put("oriCustomerOrderNo", orderNo);//原交易订单号
+            JSONObject jsonObject = PayTongTongUtils.getOrderInfo(orderNo, domain,tongtongPayRoot);
+
+            String oriResponseCode = jsonObject.getString("resp_code");
+            String orirOderStatus = jsonObject.getString("status");//0失败1 成功 2 处理中
+            String oriCustomerOrderNo = jsonObject.getString("order_no");
+            if(oriResponseCode!=null && oriResponseCode.equals("00000") &&
+                    orirOderStatus!=null && orirOderStatus.equals("1")){
+                JSONObject json = new JSONObject();
+                json.put("orderNo",oriCustomerOrderNo);
+                appEventSender.send(BusConfig.TT_PAY_CALLBACK_C2C_ROUTING_KEY, json);
+            }
+
+            if(oriCustomerOrderNo!=null && oriCustomerOrderNo.length()>0){
+                if(orirOderStatus!=null && (orirOderStatus.equals("1")||orirOderStatus.equals("2"))){
+                    jsonObjectReturn.put("isPayed",true);
+                }else{
+                    jsonObjectReturn.put("isPayed",false);
+                }
+            }else{
+                jsonObjectReturn.put("isPayed",false);
+            }
+        }catch (Exception e){
+            log.info("getPayInfo error:{}",e.getMessage());
+        }
+        return jsonObjectReturn;
     }
 }
