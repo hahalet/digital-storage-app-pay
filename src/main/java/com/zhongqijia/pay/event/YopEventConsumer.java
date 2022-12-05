@@ -109,7 +109,6 @@ public class YopEventConsumer {
                         return;
                     }
                     myOrder.setGrants(1);
-                    myOrder.setPaytype(5);
                     myOrder.setOrdertype(1);
                     myOrderMapper.updateById(myOrder);
                     RedisHelp.refreshMyOrder(myOrder, redisUtil);
@@ -193,7 +192,6 @@ public class YopEventConsumer {
             if (userGrant != null && userGrant.getBuytime()!=null && userGrant.getBuytime().getTime() == timeLong) {
                 if (userGrant.getType() == 2) {
                     userGrant.setType(5);
-                    userGrant.setPaytype(6);
                     userGrantMapper.updateById(userGrant);
                 }
             }
