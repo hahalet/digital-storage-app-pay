@@ -62,7 +62,7 @@ public class TongTongController {
             logTongtongPayCallBack.setCreate_time(DateUtils.getCurrentTimeStamp());
             logTongtongPayCallBackMapper.insert(logTongtongPayCallBack);
         }catch(Exception e){
-
+            log.info("payCallback error:{}",e.getMessage());
         }
 
         if(logTongtongPayCallBack.getResp_code().equals("000000") &&
