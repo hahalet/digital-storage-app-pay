@@ -245,6 +245,7 @@ public class PayTongTongUtils {
                     user_id = js.getString("user_id");
                 }
             }
+            log.info("user_in_id:{},user_id:{}",user_in_id,user_id);
             if(user_in_id==null || user_id==null){
                 return null;
             }
