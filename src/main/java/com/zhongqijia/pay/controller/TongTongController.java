@@ -2,9 +2,12 @@ package com.zhongqijia.pay.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.zhongqijia.pay.bean.paytongtong.PayCallBack;
+import com.zhongqijia.pay.bean.paytongtong.LogTongtongPayCallBack;
+import com.zhongqijia.pay.config.BusConfig;
 import com.zhongqijia.pay.event.AppEventSender;
+import com.zhongqijia.pay.mapper.LogTongtongPayCallBackMapper;
 import com.zhongqijia.pay.service.PayTongTongService;
+import com.zhongqijia.pay.utils.DateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +31,8 @@ public class TongTongController {
 
     @Autowired
     private PayTongTongService payTongTongService;
-
+    @Autowired
+    private LogTongtongPayCallBackMapper logTongtongPayCallBackMapper;
     /**
      * 功能描述: 钱包回调地址
      *
@@ -51,9 +55,24 @@ public class TongTongController {
      * @auther: xy
      */
     @PostMapping(value = "/payCallback")
-    public String payCallback(@RequestBody PayCallBack payCallBack,
+    public String payCallback(@RequestBody LogTongtongPayCallBack logTongtongPayCallBack,
                               HttpServletRequest req, HttpServletResponse resp) {
-        log.info("获取到payCallback response为{}", payCallBack);
+        log.info("获取到payCallback response为{}", logTongtongPayCallBack);
+        try{
+            logTongtongPayCallBack.setCreate_time(DateUtils.getCurrentTimeStamp());
+            logTongtongPayCallBackMapper.insert(logTongtongPayCallBack);
+        }catch(Exception e){
+
+        }
+
+        if(logTongtongPayCallBack.getResp_code().equals("000000") &&
+                logTongtongPayCallBack.getResp_msg().equals("success")){
+            String orderNo = logTongtongPayCallBack.getOrder_no();
+            JSONObject json = new JSONObject();
+            json.put("orderNo",orderNo);
+            appEventSender.send(BusConfig.TT_PAY_CALLBACK_ROUTING_KEY, json);
+        }
+
         return "000000";
     }
 

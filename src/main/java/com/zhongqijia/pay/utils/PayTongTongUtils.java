@@ -144,7 +144,7 @@ public class PayTongTongUtils {
                 req.setReturn_url(return_url);
             }
             req.setUser_id(user_id);
-            String mer_order_no = myOrder.getOrderno();
+            String mer_order_no = PayHelp.FIRST_ORDER+myOrder.getOrderno();
             if(mer_order_no.length()<=30){
                 Object indexObj = redisUtil.get(RedisHelp.TT_PAY_ORDER_KEY+mer_order_no);
                 Integer index = 0;

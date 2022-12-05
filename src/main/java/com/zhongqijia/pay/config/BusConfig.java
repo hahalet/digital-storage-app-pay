@@ -48,6 +48,9 @@ public class BusConfig {
     public static final String SAND_PAY_CALLBACK_C2C_QUEUE = "sand.pay.ctoc.callback.queue";
     public static final String SAND_PAY_CALLBACK_C2C_ROUTING_KEY = "sand.pay.ctoc.callback.routingkey";
 
+    public static final String TT_PAY_CALLBACK_QUEUE = "tt.pay.callback.queue";
+    public static final String TT_PAY_CALLBACK_ROUTING_KEY = "tt.pay.callback.routingkey";
+
     @Bean
     public MessageConverter messageConverter() {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -155,6 +158,21 @@ public class BusConfig {
     Binding bindingSandPayC2CCallback(@Qualifier(SAND_PAY_CALLBACK_C2C_QUEUE) Queue queue, @Qualifier(RABBIT_APP_EXCHANGE) TopicExchange exchange) {
         log.info("bindingSandCallback {} to {} with {}", queue, exchange, SAND_PAY_CALLBACK_C2C_ROUTING_KEY);
         return BindingBuilder.bind(queue).to(exchange).with(SAND_PAY_CALLBACK_C2C_ROUTING_KEY);
+    }
+
+    /**
+     * 统统支付队列
+     */
+    @Bean(TT_PAY_CALLBACK_QUEUE)
+    Queue queueTTPayCallback() {
+        log.info("queue name:{}", TT_PAY_CALLBACK_QUEUE);
+        return new Queue(TT_PAY_CALLBACK_QUEUE, false);
+    }
+
+    @Bean(TT_PAY_CALLBACK_ROUTING_KEY)
+    Binding bindingTTPayCallback(@Qualifier(TT_PAY_CALLBACK_QUEUE) Queue queue, @Qualifier(RABBIT_APP_EXCHANGE) TopicExchange exchange) {
+        log.info("bindingTTCallback {} to {} with {}", queue, exchange, TT_PAY_CALLBACK_ROUTING_KEY);
+        return BindingBuilder.bind(queue).to(exchange).with(TT_PAY_CALLBACK_ROUTING_KEY);
     }
 
 }
