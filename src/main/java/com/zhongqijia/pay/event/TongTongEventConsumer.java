@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class TongTOngEventConsumer {
+public class TongTongEventConsumer {
     @Autowired(required = false)
     UsersMapper userMapper;
     @Autowired(required = false)
