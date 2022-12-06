@@ -13,4 +13,6 @@ public interface PayTongTongService {
     String payOrderSecond(Integer grantId, String payerClientIp);
 
     JSONObject getPayInfo(String orderNo);
+
+    JSONObject cancelOrder(String orderNo);
 }

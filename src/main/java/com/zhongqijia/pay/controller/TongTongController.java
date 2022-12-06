@@ -75,9 +75,6 @@ public class TongTongController {
     public String payCallback(@RequestBody LogTongtongPayCallBack logTongtongPayCallBack,
                               HttpServletRequest req, HttpServletResponse resp) {
         log.info("获取到payCallback response为{}", logTongtongPayCallBack);
-        if(1>0){
-            return "000000";
-        }
         try{
             logTongtongPayCallBack.setCreate_time(DateUtils.getCurrentTimeStamp());
             logTongtongPayCallBackMapper.insert(logTongtongPayCallBack);
@@ -124,6 +121,7 @@ public class TongTongController {
     public JSONObject getPayInfo(@RequestParam String orderNo) throws Exception {
         return payTongTongService.getPayInfo(orderNo);
     }
+
     @GetMapping(value = "/walletLoginByUsers")
     public String walletLoginByUsers(Integer userId) {
         return payTongTongService.walletLoginByUsers(userId);
@@ -132,5 +130,10 @@ public class TongTongController {
     @GetMapping(value = "/getWalletInfo")
     public JSONObject getWalletInfo(@RequestParam Integer userId) throws Exception {
         return payTongTongService.walletIsOpen(userId);
+    }
+
+    @GetMapping(value = "/cancelOrder")
+    public JSONObject cancelOrder(@RequestParam String orderNo) throws Exception {
+        return payTongTongService.cancelOrder(orderNo);
     }
 }

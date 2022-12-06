@@ -115,6 +115,23 @@ public class PayTongTongUtils {
         }
     }
 
+    public static JSONObject cancelOrder(String orderNo, String domain, String tongtongPayRoot){
+        TradeOrderApplyRequest req =new TradeOrderApplyRequest();
+        req.setService("fosun.sumpay.api.trade.close.order");
+        //req.setTimestamp(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
+        req.setMer_no("200102239651");
+        req.setApp_id("200102239651");
+        req.setOrder_no(orderNo);
+        log.info("getOrderInfo111:{}",JSON.toJSONString(req));
+        Map<String, String> res = post(req, domain,tongtongPayRoot);
+        log.info("getOrderInfo:{}",JSON.toJSONString(res));
+        if(res!=null && res.get("resp_code").equals("000000")){
+            return JSONObject.parseObject(JSON.toJSONString(res));
+        }else{
+            return null;
+        }
+    }
+
     public static String payFirst(Users users, String tongtongPayRoot,
                                   MyOrder myOrder, Collection collection,
                                   String return_url, String notify_url, String domain, String payerClientIp, RedisUtil redisUtil, String walletLoginNotifyUrl){

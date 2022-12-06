@@ -141,4 +141,9 @@ public class PayTongTongServiceImpl implements PayTongTongService {
         //}
         return jsonObjectReturn;
     }
+
+    @Override
+    public JSONObject cancelOrder(String orderNo) {
+        return PayTongTongUtils.cancelOrder(orderNo, domain, tongtongPayRoot);
+    }
 }
