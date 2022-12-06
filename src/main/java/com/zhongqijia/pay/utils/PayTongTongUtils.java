@@ -283,7 +283,7 @@ public class PayTongTongUtils {
             //分润
             req.setShare_benefit_flag("1");
             BigDecimal second = decimal.multiply(PayHelp.SECOND_ORDER_PERCENT).setScale(2,BigDecimal.ROUND_HALF_DOWN);
-    		req.setShare_benefit_exp("{\"share_type\":\"1\",\"prior\":\"1\",\"benefit_bean_list\":[{\"mer_no\":\""+user_in_id
+    		req.setShare_benefit_exp("{\"share_type\":\"1\",\"prior\":\"1\",\"benefit_bean_list\":[{\"user_id\":\""+user_in_id
                                     + "\",\"share_type\":\"1\",\"prior\":\"1\",\"amount\":\""
                                     + second.toPlainString() + "\"}]}");
             String mer_order_no = PayHelp.SECOND_ORDER + userGrant.getId()+"_"+userGrant.getBuytime().getTime();
