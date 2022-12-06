@@ -280,6 +280,7 @@ public class PayTongTongUtils {
             req.setNotify_url(notify_url);
             req.setReturn_url(return_url);
             req.setUser_id(user_id);
+            //分润
             req.setShare_benefit_flag("1");
             BigDecimal second = decimal.multiply(PayHelp.SECOND_ORDER_PERCENT).setScale(2,BigDecimal.ROUND_HALF_DOWN);
     		req.setShare_benefit_exp("{\"share_type\":\"1\",\"prior\":\"1\",\"benefit_bean_list\":[{\"mer_no\":\""+user_in_id
@@ -313,6 +314,7 @@ public class PayTongTongUtils {
             req.setService(String.format("fosun.sumpay.cashier.wap.trade.order.apply"));
             req.setVersion("1.0");
             req.setTimestamp(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
+            log.info("request:{}",JSON.toJSONString(req));
             Map<String, String> res = post(req,  domain, tongtongPayRoot);
             log.info(JSON.toJSONString(res));
             //{"resp_code":"000000","redirect_url":"https://pay.sumpay.cn/cashier-fed/pages/wap/index.html#/?key=dc207e68-b08f-4316-ae05-f105887af7d8&pre=0"}
