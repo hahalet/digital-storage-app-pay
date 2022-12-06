@@ -113,6 +113,7 @@ public class PayTongTongServiceImpl implements PayTongTongService {
                 orderNo = orderNo + "_" + index;
             }
             param.put("oriCustomerOrderNo", orderNo);//原交易订单号
+        log.info("getPayInfo:1");
             JSONObject jsonObject = PayTongTongUtils.getOrderInfo(orderNo, domain, tongtongPayRoot);
 
             log.info("getPayInfo:{}",jsonObject.toJSONString());
