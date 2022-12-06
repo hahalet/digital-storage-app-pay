@@ -68,7 +68,7 @@ public class PayTongTongUtils {
         //身份证
         req.setId_no(users.getRealno());
         Map<String, String> res = post(req, domain,tongtongPayRoot);
-        Log.info(JSON.toJSONString(res));
+        log.info(JSON.toJSONString(res));
         if(res!=null && res.get("resp_code").equals("000000")){
             return JSON.toJSONString(res);
         }else{

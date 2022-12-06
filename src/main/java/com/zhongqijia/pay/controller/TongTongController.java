@@ -114,6 +114,7 @@ public class TongTongController {
 
     @GetMapping(value = "/payOrderSecond")
     public String payOrderSecond(Integer grantId, String payerClientIp) {
+        log.info("grantId:{},payerClientIp",grantId,payerClientIp);
         return payTongTongService.payOrderSecond(grantId, payerClientIp);
     }
 
