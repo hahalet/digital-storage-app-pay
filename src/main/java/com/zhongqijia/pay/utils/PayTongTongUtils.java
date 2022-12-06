@@ -108,7 +108,7 @@ public class PayTongTongUtils {
         req.setApp_id("200102239651");
         req.setOrder_no(orderNo);
         Map<String, String> res = post(req, domain,tongtongPayRoot);
-        Log.info(JSON.toJSONString(res));
+        log.info("getOrderInfo:{}",JSON.toJSONString(res));
         if(res!=null && res.get("resp_code").equals("000000")){
             return JSONObject.parseObject(JSON.toJSONString(res));
         }else{
