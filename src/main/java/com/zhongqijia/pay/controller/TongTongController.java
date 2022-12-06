@@ -75,6 +75,9 @@ public class TongTongController {
     public String payCallback(@RequestBody LogTongtongPayCallBack logTongtongPayCallBack,
                               HttpServletRequest req, HttpServletResponse resp) {
         log.info("获取到payCallback response为{}", logTongtongPayCallBack);
+        if(1>0){
+            return "000000";
+        }
         try{
             logTongtongPayCallBack.setCreate_time(DateUtils.getCurrentTimeStamp());
             logTongtongPayCallBackMapper.insert(logTongtongPayCallBack);
