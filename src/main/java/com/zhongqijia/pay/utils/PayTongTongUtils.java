@@ -99,13 +99,13 @@ public class PayTongTongUtils {
 
     public static JSONObject getOrderInfo(String orderNo, String domain, String tongtongPayRoot){
         log.info("getOrderInfo:{}",orderNo);
-        QueryOrderStatusRequest req =new QueryOrderStatusRequest();
+        TradeOrderApplyRequest req =new TradeOrderApplyRequest();
         req.setFormat("JSON");
         req.setTerminal_type("wap");
         req.setService("fosun.sumpay.api.trade.order.search.merchant");
         req.setTimestamp(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
         req.setVersion("1.0");
-        req.setApp_id("200102239651");
+        req.setMer_no("200102239651");
         req.setOrder_no(orderNo);
         Map<String, String> res = post(req, domain,tongtongPayRoot);
         log.info("getOrderInfo:{}",JSON.toJSONString(res));
