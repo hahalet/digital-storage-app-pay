@@ -92,6 +92,11 @@ public class PayTongTongServiceImpl implements PayTongTongService {
         return PayTongTongUtils.paySecond(user, userGrant, collection, payerClientIp, tongtongPayRoot, payCallbackUrl, payNotifyUrl, domain, redisUtil, walletLoginNotifyUrl);
     }
 
+    /**
+     * {"app_id":"200102239651","attach":"123","goods_name":"英灵殿-刺客信条","goods_num":"1","goods_type":"2","mer_logo_url":"/profile/upload/2022/12/05/00176945bb935891082a1abdda665497_20221205151005A014.jpeg","mer_no":"200102239651","need_notify":"1","need_return":"1","notify_url":"http://120.77.148.40/aries2/tongtong/payCallback","order_amount":"0.01","order_no":"SCD44900_1670317915000_3","order_time":"20221206171523","pay_channels":"","return_url":"http://120.77.148.40/aries2/tongtong/payCallbackUrl","service":"fosun.sumpay.cashier.wap.trade.order.apply","share_benefit_exp":"{\"share_type\":\"1\",\"prior\":\"1\",\"benefit_bean_list\":[{\"account_type\":\"1\",\"user_id\":\"100208624013\",\"share_type\":\"1\",\"prior\":\"1\",\"amount\":\"0.01\"}]}","share_benefit_flag":"1","sub_mer_no":"","terminal_type":"wap","timestamp":"20221206171523","user_id":"100208716536","user_id_type":"1","user_ip_addr":"183.46.73.47","version":"1.0"}
+     * @param orderNo
+     * @return
+     */
     @Override
     public JSONObject getPayInfo(String orderNo) {
         JSONObject jsonObjectReturn = new JSONObject();
@@ -109,6 +114,7 @@ public class PayTongTongServiceImpl implements PayTongTongService {
             param.put("oriCustomerOrderNo", orderNo);//原交易订单号
             JSONObject jsonObject = PayTongTongUtils.getOrderInfo(orderNo, domain, tongtongPayRoot);
 
+            log.info("getPayInfo:{}",jsonObject.toJSONString());
             String oriResponseCode = jsonObject.getString("resp_code");
             String orirOderStatus = jsonObject.getString("status");//0失败1 成功 2 处理中
             String oriCustomerOrderNo = jsonObject.getString("order_no");
