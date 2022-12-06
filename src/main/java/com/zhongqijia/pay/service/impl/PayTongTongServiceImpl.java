@@ -100,7 +100,7 @@ public class PayTongTongServiceImpl implements PayTongTongService {
     @Override
     public JSONObject getPayInfo(String orderNo) {
         JSONObject jsonObjectReturn = new JSONObject();
-        try {
+        //try {
             JSONObject param = new JSONObject();
             param.put("customerOrderNo", SandBase.getCustomerOrderNo()); //商户订单号
             if (orderNo.length() <= 30) {
@@ -134,9 +134,9 @@ public class PayTongTongServiceImpl implements PayTongTongService {
             } else {
                 jsonObjectReturn.put("isPayed", false);
             }
-        } catch (Exception e) {
-            log.info("getPayInfo error:{}", e.getMessage());
-        }
+        //} catch (Exception e) {
+        //    log.info("getPayInfo error:{}", e.getMessage());
+        //}
         return jsonObjectReturn;
     }
 }

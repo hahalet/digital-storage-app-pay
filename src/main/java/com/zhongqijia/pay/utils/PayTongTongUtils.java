@@ -98,6 +98,7 @@ public class PayTongTongUtils {
     }
 
     public static JSONObject getOrderInfo(String orderNo, String domain, String tongtongPayRoot){
+        log.info("getOrderInfo:{}",orderNo);
         QueryOrderStatusRequest req =new QueryOrderStatusRequest();
         req.setFormat("JSON");
         req.setTerminal_type("wap");
