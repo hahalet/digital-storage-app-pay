@@ -120,7 +120,7 @@ public class PayTongTongServiceImpl implements PayTongTongService {
             JSONObject jsonObjectResult = JSONObject.parseObject(sumpay_order_search_merchant_response);
             String orirOderStatus = jsonObjectResult.getString("status");
             String oriCustomerOrderNo = jsonObjectResult.getString("order_no");
-            if (oriResponseCode != null && oriResponseCode.equals("00000") &&
+            if (oriResponseCode != null && oriResponseCode.equals("000000") &&
                     orirOderStatus != null && orirOderStatus.equals("1")) {
                 JSONObject json = new JSONObject();
                 json.put("orderNo", oriCustomerOrderNo);
