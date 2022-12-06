@@ -63,8 +63,8 @@ public class SandController {
             String data=req.getParameter("data");
             String sign=req.getParameter("sign");
             String signType =req.getParameter("signType");
-            //log.info("data:{}", data);
-            //log.info("sign:{}", sign);
+            log.info("data:{}", data);
+            log.info("sign:{}", sign);
             // 验证签名
             boolean valid;
             //try {
@@ -130,8 +130,8 @@ public class SandController {
             String data = req.getParameter("data");
             String sign = req.getParameter("sign");
             String signType = req.getParameter("signType");
-            //log.info("data:{}", data);
-            //log.info("sign:{}", sign);
+            log.info("data:{}", data);
+            log.info("sign:{}", sign);
             boolean valid = CryptoUtil.verifyDigitalSign(data.getBytes(encoding), Base64.decodeBase64(sign),
                     SandCertUtil.getPublicKey(), "SHA1WithRSA");
             if (!valid) {
@@ -188,8 +188,8 @@ public class SandController {
             String data=req.getParameter("data");
             String sign=req.getParameter("sign");
             String signType =req.getParameter("signType");
-            //log.info("data:{}", data);
-            //log.info("sign:{}", sign);
+            log.info("data:{}", data);
+            log.info("sign:{}", sign);
             // 验证签名
             boolean valid;
             //try {

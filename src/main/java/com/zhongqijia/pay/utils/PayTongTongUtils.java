@@ -46,7 +46,7 @@ public class PayTongTongUtils {
         request2.setCharsetChangeWords(req.getCharsetChangeWords());
 
         SumpayService ss = new SumpayServiceImpl();
-        log.info("post start============");
+        //log.info("post start============");
         return ss.execute(request2);
     }
 
@@ -68,7 +68,7 @@ public class PayTongTongUtils {
         //身份证
         req.setId_no(users.getRealno());
         Map<String, String> res = post(req, domain,tongtongPayRoot);
-        log.info(JSON.toJSONString(res));
+        //log.info(JSON.toJSONString(res));
         return JSON.toJSONString(res);
     }
 
@@ -85,25 +85,25 @@ public class PayTongTongUtils {
             req.setPartner_id("200102239651");
             req.setPage_index("1");
             Map<String, String> res = post(req,  null, tongtongPayRoot);
-            log.info(JSON.toJSONString(res));
+            //log.info(JSON.toJSONString(res));
             return res;
         }catch (Exception e){
-            log.info("getWalletInfo error:{}",e.getMessage());
+            //log.info("getWalletInfo error:{}",e.getMessage());
         }
         return null;
     }
 
     public static JSONObject getOrderInfo(String orderNo, String domain, String tongtongPayRoot){
-        log.info("getOrderInfo:{}",orderNo);
+        //log.info("getOrderInfo:{}",orderNo);
         TradeOrderApplyRequest req =new TradeOrderApplyRequest();
         req.setService("fosun.sumpay.api.trade.order.search.merchant");
         //req.setTimestamp(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
         req.setMer_no("200102239651");
         req.setApp_id("200102239651");
         req.setOrder_no(orderNo);
-        log.info("getOrderInfo111:{}",JSON.toJSONString(req));
+        //log.info("getOrderInfo111:{}",JSON.toJSONString(req));
         Map<String, String> res = post(req, domain,tongtongPayRoot);
-        log.info("getOrderInfo:{}",JSON.toJSONString(res));
+        //log.info("getOrderInfo:{}",JSON.toJSONString(res));
         if(res!=null && res.get("resp_code").equals("000000")){
             return JSONObject.parseObject(JSON.toJSONString(res));
         }else{
@@ -118,9 +118,9 @@ public class PayTongTongUtils {
         req.setMer_no("200102239651");
         req.setApp_id("200102239651");
         req.setOrder_no(orderNo);
-        log.info("getOrderInfo111:{}",JSON.toJSONString(req));
+        //log.info("getOrderInfo111:{}",JSON.toJSONString(req));
         Map<String, String> res = post(req, domain,tongtongPayRoot);
-        log.info("getOrderInfo:{}",JSON.toJSONString(res));
+        //log.info("getOrderInfo:{}",JSON.toJSONString(res));
         if(res!=null && res.get("resp_code").equals("000000")){
             return JSONObject.parseObject(JSON.toJSONString(res));
         }else{
@@ -145,7 +145,7 @@ public class PayTongTongUtils {
             }
             if(user_id==null){
                 String url = loginWallet(users,notify_url,domain,tongtongPayRoot);
-                log.info("url:{}",url);
+                //log.info("url:{}",url);
                 return url;
             }
             String needNotify = "1";
@@ -205,12 +205,12 @@ public class PayTongTongUtils {
             req.setVersion("1.0");
             req.setTimestamp(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
             Map<String, String> res = post(req,  domain, tongtongPayRoot);
-            log.info(JSON.toJSONString(res));
+            //log.info(JSON.toJSONString(res));
             //{"resp_code":"000000","redirect_url":"https://pay.sumpay.cn/cashier-fed/pages/wap/index.html#/?key=dc207e68-b08f-4316-ae05-f105887af7d8&pre=0"}
             //JSONObject jsonObject = JSONObject.parseObject(JSON.toJSONString(res));
             jsonString = JSON.toJSONString(res);
         }catch (Exception e){
-            log.info("getWalletInfo error:{}",e.getMessage());
+            //log.info("getWalletInfo error:{}",e.getMessage());
         }
         return jsonString;
     }
@@ -262,7 +262,7 @@ public class PayTongTongUtils {
             if(user_id==null){
                 return loginWallet(buyUser,walletLoginNotifyUrl,domain,tongtongPayRoot);
             }
-            log.info("user_in_id:{},user_id:{}",user_in_id,user_id);
+            //log.info("user_in_id:{},user_id:{}",user_in_id,user_id);
             if(user_in_id==null){
                 return null;
             }
@@ -329,14 +329,14 @@ public class PayTongTongUtils {
             req.setService(String.format("fosun.sumpay.cashier.wap.trade.order.apply"));
             req.setVersion("1.0");
             req.setTimestamp(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
-            log.info("request:{}",JSON.toJSONString(req));
+            //log.info("request:{}",JSON.toJSONString(req));
             Map<String, String> res = post(req,  domain, tongtongPayRoot);
-            log.info(JSON.toJSONString(res));
+            //log.info(JSON.toJSONString(res));
             //{"resp_code":"000000","redirect_url":"https://pay.sumpay.cn/cashier-fed/pages/wap/index.html#/?key=dc207e68-b08f-4316-ae05-f105887af7d8&pre=0"}
             //JSONObject jsonObject = JSONObject.parseObject(JSON.toJSONString(res));
             jsonString = JSON.toJSONString(res);
         }catch (Exception e){
-            log.info("getWalletInfo error:{}",e.getMessage());
+            //log.info("getWalletInfo error:{}",e.getMessage());
         }
         return jsonString;
     }
