@@ -98,7 +98,6 @@ public class TongTongController {
 
     @PostMapping(value = "/payCallbackUrl")
     public String payCallbackUrl(HttpServletRequest req, HttpServletResponse resp) {
-        log.info("payCallbackUrl response");
         try {
             resp.sendRedirect(payReturnUrl);
         } catch (IOException e) {
@@ -125,6 +124,7 @@ public class TongTongController {
 
     @GetMapping(value = "/walletLoginByUsers")
     public String walletLoginByUsers(Integer userId) {
+        log.info("walletLoginByUsers userId:{}",userId);
         return payTongTongService.walletLoginByUsers(userId);
     }
 
