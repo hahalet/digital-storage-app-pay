@@ -99,6 +99,7 @@ public class PayTongTongServiceImpl implements PayTongTongService {
      */
     @Override
     public JSONObject getPayInfo(String orderNo) {
+        log.info("getPayInfo:{}",orderNo);
         JSONObject jsonObjectReturn = new JSONObject();
         //try {
             JSONObject param = new JSONObject();
