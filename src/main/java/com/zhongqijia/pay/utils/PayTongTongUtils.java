@@ -69,11 +69,7 @@ public class PayTongTongUtils {
         req.setId_no(users.getRealno());
         Map<String, String> res = post(req, domain,tongtongPayRoot);
         log.info(JSON.toJSONString(res));
-        if(res!=null && res.get("resp_code").equals("000000")){
-            return JSON.toJSONString(res);
-        }else{
-            return "";
-        }
+        return JSON.toJSONString(res);
     }
 
     public static Map<String, String> getWalletInfo(Integer userId, String tongtongPayRoot){
