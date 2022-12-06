@@ -128,7 +128,7 @@ public class PayTongTongServiceImpl implements PayTongTongService {
             }
 
             if (oriCustomerOrderNo != null && oriCustomerOrderNo.length() > 0) {
-                if (orirOderStatus != null && (orirOderStatus.equals("1") || orirOderStatus.equals("2"))) {
+                if (orirOderStatus != null && (orirOderStatus.equals("1"))) {
                     jsonObjectReturn.put("isPayed", true);
                 } else {
                     jsonObjectReturn.put("isPayed", false);
