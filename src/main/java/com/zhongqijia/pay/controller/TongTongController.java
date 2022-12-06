@@ -11,10 +11,12 @@ import com.zhongqijia.pay.utils.DateUtils;
 import com.zhongqijia.pay.utils.PayHelp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -26,14 +28,16 @@ import java.util.Map;
 @RequestMapping("/tongtong")
 @Slf4j
 public class TongTongController {
-
     @Autowired
     private AppEventSender appEventSender;
-
     @Autowired
     private PayTongTongService payTongTongService;
     @Autowired
     private LogTongtongPayCallBackMapper logTongtongPayCallBackMapper;
+    @Value("${tongtongPay.walletLoginReturnUrl}")
+    private String walletLoginReturnUrl;
+    @Value("${tongtongPay.payReturnUrl}")
+    private String payReturnUrl;
     /**
      * 功能描述: 钱包回调地址
      *
@@ -45,6 +49,18 @@ public class TongTongController {
     public String walletCallback(HttpServletRequest req, HttpServletResponse resp) {
         Map<String, String[]> parameterMap = req.getParameterMap();
         log.info("获取到walletCallback response为{}", JSON.toJSONString(parameterMap));
+        return "000000";
+    }
+
+    @PostMapping(value = "/walletCallbackUrl")
+    public String walletCallbackUrl(HttpServletRequest req, HttpServletResponse resp) {
+        Map<String, String[]> parameterMap = req.getParameterMap();
+        log.info("获取到walletCallback response为{}", JSON.toJSONString(parameterMap));
+        try {
+            resp.sendRedirect(walletLoginReturnUrl);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return "000000";
     }
 
@@ -77,6 +93,17 @@ public class TongTongController {
             }
         }
 
+        return "000000";
+    }
+
+    @PostMapping(value = "/payCallbackUrl")
+    public String payCallbackUrl(HttpServletRequest req, HttpServletResponse resp) {
+        log.info("payCallbackUrl response");
+        try {
+            resp.sendRedirect(payReturnUrl);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return "000000";
     }
 
