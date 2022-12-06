@@ -81,7 +81,7 @@ public class PayTongTongServiceImpl implements PayTongTongService {
         MyOrder myOrder = myOrderMapper.selectById(orderId);
         Collection collection = collectionMapper.selectById(myOrder.getCollid());
         return PayTongTongUtils.payFirst(users, tongtongPayRoot, myOrder, collection,
-                payCallbackUrl, payNotifyUrl, domain, payerClientIp, redisUtil);
+                payCallbackUrl, payNotifyUrl, domain, payerClientIp, redisUtil,walletLoginNotifyUrl);
     }
 
     @Override

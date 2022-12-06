@@ -117,7 +117,7 @@ public class PayTongTongUtils {
 
     public static String payFirst(Users users, String tongtongPayRoot,
                                   MyOrder myOrder, Collection collection,
-                                  String return_url, String notify_url, String domain, String payerClientIp, RedisUtil redisUtil){
+                                  String return_url, String notify_url, String domain, String payerClientIp, RedisUtil redisUtil, String walletLoginNotifyUrl){
         String jsonString = null;
         try{
             Map<String, String> resUserInfo = PayTongTongUtils.getWalletInfo(users.getUserId(),tongtongPayRoot);
@@ -131,7 +131,7 @@ public class PayTongTongUtils {
                 }
             }
             if(user_id==null){
-                return null;
+                return loginWallet(users,notify_url,domain,tongtongPayRoot);
             }
             String needNotify = "1";
             String needReturn = "1";
@@ -219,7 +219,7 @@ public class PayTongTongUtils {
         String ip_address = "112.74.161.59";
         payFirst(users,"C:\\Users\\llg\\qyy\\server\\digital-storage-pay\\src\\main\\resources\\tongtong\\",
                 myOrder,collection,return_url,notify_url,domain,ip_address,
-                null);
+                null,null);
     }
 
     public static String paySecond(Users buyUser,UserGrant userGrant, Collection collection, String payerClientIp, String tongtongPayRoot, String return_url, String notify_url, String domain, RedisUtil redisUtil, String walletLoginNotifyUrl) {
