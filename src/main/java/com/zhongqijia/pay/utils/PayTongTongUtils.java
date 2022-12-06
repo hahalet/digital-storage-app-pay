@@ -131,7 +131,9 @@ public class PayTongTongUtils {
                 }
             }
             if(user_id==null){
-                return loginWallet(users,notify_url,domain,tongtongPayRoot);
+                String url = loginWallet(users,notify_url,domain,tongtongPayRoot);
+                log.info("url:{}",url);
+                return url;
             }
             String needNotify = "1";
             String needReturn = "1";
