@@ -100,13 +100,12 @@ public class PayTongTongUtils {
     public static JSONObject getOrderInfo(String orderNo, String domain, String tongtongPayRoot){
         log.info("getOrderInfo:{}",orderNo);
         TradeOrderApplyRequest req =new TradeOrderApplyRequest();
-        req.setFormat("JSON");
-        req.setTerminal_type("wap");
         req.setService("fosun.sumpay.api.trade.order.search.merchant");
-        req.setTimestamp(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
-        req.setVersion("1.0");
+        //req.setTimestamp(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
         req.setMer_no("200102239651");
+        req.setApp_id("200102239651");
         req.setOrder_no(orderNo);
+        log.info("getOrderInfo111:{}",JSON.toJSONString(req));
         Map<String, String> res = post(req, domain,tongtongPayRoot);
         log.info("getOrderInfo:{}",JSON.toJSONString(res));
         if(res!=null && res.get("resp_code").equals("000000")){
@@ -218,11 +217,10 @@ public class PayTongTongUtils {
         String return_url = "http://120.77.148.40/h5/#/pages/good/detail/paystatus?paytype=3";
         String notify_url = "http://120.77.148.40/aries2/tongtong/payCallback";
         String domain = "http://120.77.148.40";
+        String tongtongPayRoot="C:\\Users\\llg\\qyy\\server\\digital-storage-pay\\src\\main\\resources\\tongtong\\";
         myOrder.getPrice().setScale(2,BigDecimal.ROUND_HALF_DOWN);
         String ip_address = "112.74.161.59";
-        payFirst(users,"C:\\Users\\llg\\qyy\\server\\digital-storage-pay\\src\\main\\resources\\tongtong\\",
-                myOrder,collection,return_url,notify_url,domain,ip_address,
-                null,null);
+        getOrderInfo("SCD44900_1670320604000_1",domain,tongtongPayRoot);
     }
 
     public static String paySecond(Users buyUser,UserGrant userGrant, Collection collection, String payerClientIp, String tongtongPayRoot, String return_url, String notify_url, String domain, RedisUtil redisUtil, String walletLoginNotifyUrl) {

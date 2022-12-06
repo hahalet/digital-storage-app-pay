@@ -113,13 +113,13 @@ public class PayTongTongServiceImpl implements PayTongTongService {
                 orderNo = orderNo + "_" + index;
             }
             param.put("oriCustomerOrderNo", orderNo);//原交易订单号
-        log.info("getPayInfo:1");
             JSONObject jsonObject = PayTongTongUtils.getOrderInfo(orderNo, domain, tongtongPayRoot);
 
-            log.info("getPayInfo:{}",jsonObject.toJSONString());
             String oriResponseCode = jsonObject.getString("resp_code");
-            String orirOderStatus = jsonObject.getString("status");//0失败1 成功 2 处理中
-            String oriCustomerOrderNo = jsonObject.getString("order_no");
+            String sumpay_order_search_merchant_response = jsonObject.getString("sumpay_order_search_merchant_response");//0失败1 成功 2 处理中
+            JSONObject jsonObjectResult = JSONObject.parseObject(sumpay_order_search_merchant_response);
+            String orirOderStatus = jsonObjectResult.getString("status");
+            String oriCustomerOrderNo = jsonObjectResult.getString("order_no");
             if (oriResponseCode != null && oriResponseCode.equals("00000") &&
                     orirOderStatus != null && orirOderStatus.equals("1")) {
                 JSONObject json = new JSONObject();
