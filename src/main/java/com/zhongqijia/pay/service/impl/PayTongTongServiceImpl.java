@@ -105,7 +105,7 @@ public class PayTongTongServiceImpl implements PayTongTongService {
             JSONObject param = new JSONObject();
             param.put("customerOrderNo", SandBase.getCustomerOrderNo()); //商户订单号
             if (orderNo.length() <= 30) {
-                Integer index = (Integer) redisUtil.get(RedisHelp.SAND_PAY_ORDER_KEY + orderNo);
+                Integer index = (Integer) redisUtil.get(RedisHelp.TT_PAY_ORDER_KEY + orderNo);
                 if (index == null) {
                     jsonObjectReturn.put("isPayed", false);
                     return jsonObjectReturn;
