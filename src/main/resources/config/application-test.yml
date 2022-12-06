@@ -72,4 +72,4 @@ tongtongPay:
   walletLoginReturnUrl: http://120.77.148.40/h5/#/
   payCallbackUrl: http://120.77.148.40/aries2/tongtong/payCallbackUrl
   payNotifyUrl: http://120.77.148.40/aries2/tongtong/payCallback
-  payReturnUrl: http://120.77.148.40/h5/#/pages/good/detail/paystatus?paytype=2
+  payReturnUrl: http://120.77.148.40/h5/#/pages/good/detail/paystatus?paytype=2&yunPayStatus=success
