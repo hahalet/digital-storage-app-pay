@@ -254,6 +254,46 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-amqp</artifactId>
 		</dependency>
+		<!-- 阿里fastJson -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.35</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+			<version>4.4.10</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.6</version>
+		</dependency>
+		<dependency>
+			<groupId>api</groupId>
+			<artifactId>tongtong-sdk</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${pom.basedir}/libs/merchant-integration-api-core.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>cfca</groupId>
+			<artifactId>cfca-sdk</artifactId>
+			<version>1.0.0.1</version>
+			<scope>system</scope>
+			<systemPath>${pom.basedir}/libs/cfca-1.0.0.1.jar</systemPath>
+		</dependency>
 	</dependencies>
 	<pluginRepositories>
 		<pluginRepository>
@@ -289,6 +329,9 @@
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<includeSystemScope>true</includeSystemScope>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
