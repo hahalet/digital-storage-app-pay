@@ -64,4 +64,13 @@ img:
   #ImgEnum枚举类中url
   url: http://120.77.148.40/taurus
 
-
+tongtongPay:
+  #获取用户开户信息
+  tongtongPayRoot: /data/apps/pay/target/tongtong/
+  domain: https://szzqj.com.cn
+  walletCallbackUrl: https://szzqj.com.cn/aries2/tongtong/walletCallbackUrl
+  walletLoginNotifyUrl: https://szzqj.com.cn/aries2/tongtong/walletCallback
+  walletLoginReturnUrl: https://szzqj.com.cn/h5/#/
+  payCallbackUrl: https://szzqj.com.cn/aries2/tongtong/payCallbackUrl
+  payNotifyUrl: https://szzqj.com.cn/aries2/tongtong/payCallback
+  payReturnUrl: https://szzqj.com.cn/h5/#/pages/good/detail/paystatus?paytype=2&yunPayStatus=success

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongqijia.pay.mapper.LogTongtongPayCallBackMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zhongqijia.pay.bean.paytongtong.LogTongtongPayCallBack">
+        <id column="id" property="id" />
+        <result column="resp_code" property="resp_code" />
+        <result column="resp_msg" property="resp_msg" />
+        <result column="sign_type" property="sign_type" />
+        <result column="sign" property="sign" />
+        <result column="mer_no" property="mer_no" />
+        <result column="order_no" property="order_no" />
+        <result column="offset_amount" property="offset_amount" />
+        <result column="paid_amount" property="paid_amount" />
+        <result column="cash_amount" property="cash_amount" />
+        <result column="trade_no" property="trade_no" />
+        <result column="order_time" property="order_time" />
+        <result column="status" property="status" />
+        <result column="success_time" property="success_time" />
+        <result column="success_amount" property="success_amount" />
+        <result column="remark" property="remark" />
+        <result column="ttfReturnCode" property="ttfReturnCode" />
+        <result column="ttfReturnMsg" property="ttfReturnMsg" />
+        <result column="trade_code" property="trade_code" />
+        <result column="pay_product_code" property="pay_product_code" />
+        <result column="payment_type" property="payment_type" />
+        <result column="offset_detail" property="offset_detail" />
+        <result column="channel_serial_no" property="channel_serial_no" />
+        <result column="period_num" property="period_num" />
+        <result column="attach" property="attach" />
+        <result column="create_time" property="create_time" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, resp_code, resp_msg, sign_type, sign, mer_no, order_no, offset_amount, paid_amount, cash_amount, trade_no, order_time, status, success_time, success_amount, remark, ttfReturnCode, ttfReturnMsg, trade_code, pay_product_code, payment_type, offset_detail, channel_serial_no, period_num, attach, create_time
+    </sql>
+
+</mapper>

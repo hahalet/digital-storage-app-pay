@@ -105,12 +105,4 @@ public class SandServiceImpl implements SandService {
         }
         return jsonObjectReturn;
     }
-
-    public JSONObject invokeC2B(JSONObject param, SandMethodEnum sandMethodEnum) {
-        JSONObject resp = CeasHttpUtil.doPost(param, sandMethodEnum);
-        String jsonResp = JSONObject.toJSONString(resp, true);
-        //logger.info("响应报文：\n"+jsonResp);
-        return resp;
-    }
-
 }
