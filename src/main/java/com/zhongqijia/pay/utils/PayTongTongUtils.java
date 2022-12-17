@@ -68,10 +68,26 @@ public class PayTongTongUtils {
         //身份证
         req.setId_no(users.getRealno());
         Map<String, String> res = post(req, domain,tongtongPayRoot);
-        //log.info(JSON.toJSONString(res));
+        log.info("tongtong loginWallet==>UserId:{},realname:{},Realno:{}:res{}",users.getUserId(),users.getRealname(),users.getRealno(),JSON.toJSONString(res));
         return JSON.toJSONString(res);
     }
 
+    public static void main2(String[] args){
+        String tongtongPayRoot = "C:\\Users\\llg\\qyy\\server-release\\digital-storage-app-pay\\src\\main\\resources\\tongtong\\";
+        Map<String, String> map = getWalletInfo(16772,tongtongPayRoot);
+        System.out.println(JSON.toJSONString(map));
+    }
+
+    public static void main(String[] args){
+        String tongtongPayRoot = "C:\\Users\\llg\\qyy\\server-release\\digital-storage-app-pay\\src\\main\\resources\\tongtong\\";
+        Users u = new Users();
+        u.setUserId(16772);
+        u.setRealname("肖荣耀");
+        u.setRealno("42100320000612101X");
+        String path = loginWallet(u,"https://szzqj.com.cn/aries2/tongtong/walletCallback",
+                "www.baidu.com",tongtongPayRoot);
+        System.out.println(path);
+    }
     public static Map<String, String> getWalletInfo(Integer userId, String tongtongPayRoot){
         try{
             QueryUserStatusRequest req =new QueryUserStatusRequest();
@@ -215,7 +231,7 @@ public class PayTongTongUtils {
         return jsonString;
     }
 
-    public static void main(String[] args){
+    public static void main1(String[] args){
         Users users = new Users();
         users.setUserId(119414);
         //getWalletInfo(users, "C:\\Users\\llg\\qyy\\server\\digital-storage-pay\\src\\main\\resources\\tongtong\\");
