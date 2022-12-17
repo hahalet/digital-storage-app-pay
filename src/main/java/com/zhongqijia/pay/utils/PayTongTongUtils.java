@@ -66,7 +66,7 @@ public class PayTongTongUtils {
         //姓名
         req.setRealname(users.getRealname());
         //身份证
-        req.setId_no(users.getRealno());
+        req.setId_no(users.getRealno().toUpperCase());
         Map<String, String> res = post(req, domain,tongtongPayRoot);
         log.info("tongtong loginWallet==>UserId:{},realname:{},Realno:{}:res{}",users.getUserId(),users.getRealname(),users.getRealno(),JSON.toJSONString(res));
         return JSON.toJSONString(res);
@@ -83,7 +83,7 @@ public class PayTongTongUtils {
         Users u = new Users();
         u.setUserId(16772);
         u.setRealname("肖荣耀");
-        u.setRealno("42100320000612101X");
+        u.setRealno("42100320000612101x");
         String path = loginWallet(u,"https://szzqj.com.cn/aries2/tongtong/walletCallback",
                 "www.baidu.com",tongtongPayRoot);
         System.out.println(path);
