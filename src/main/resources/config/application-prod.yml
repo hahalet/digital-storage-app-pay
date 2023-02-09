@@ -2,7 +2,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      url: jdbc:mysql://172.16.0.16:3306/yipin?autoReconnect=true&allowMultiQueries=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
+      url: jdbc:mysql://gz-cdb-3tj1eesh.sql.tencentcdb.com:56868/yipin?autoReconnect=true&allowMultiQueries=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
       driver-class-name: com.mysql.cj.jdbc.Driver
       username: root
       password: ^Ta3hss&s##uPm$r
@@ -37,10 +37,10 @@ spring:
         login-username: admin
         login-password: 123456
   redis:
-    host: 172.16.0.6
+    host: r-wz9bvs7qxk3nbqcc0o.redis.rds.aliyuncs.com
     port: 6379
     database: 0
-    password: NOJRNmRp4eqUVH*s
+    password: jqTSzWgKwf2UO^f!
     timeout: 10s
     lettuce:
       pool:
@@ -51,7 +51,7 @@ spring:
   thymeleaf:
     prefix: classpath:templates/
   rabbitmq:
-    host: 172.16.0.11
+    host: 172.29.155.152
     port: 5672
     username: admin
     password: OhmRFxSdz1wcO2
